@@ -1,0 +1,1542 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Wedding MasterPlan — Luxury Light Edition</title>
+
+  <style>
+    :root{
+      /* Light Luxury Theme */
+      --bg:#ffffff;
+      --soft:#f7fafc;
+      --card: rgba(255,255,255,.92);
+      --stroke: rgba(15,23,42,.10);
+      --stroke2: rgba(15,23,42,.16);
+
+      --text:#0b1220;
+      --muted: rgba(11,18,32,.70);
+      --muted2: rgba(11,18,32,.55);
+
+      /* Brand */
+      --teal:#0ea5a4;
+      --teal2:#14b8a6;
+      --gold:#c8a84a;     /* metallic-ish */
+      --gold2:#f2d17c;
+
+      --shadow: 0 18px 55px rgba(15,23,42,.10);
+      --shadow2: 0 10px 22px rgba(15,23,42,.08);
+
+      --r:18px;
+      --r2:26px;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 400px at 20% 0%, rgba(14,165,164,.12), transparent 55%),
+        radial-gradient(900px 400px at 85% 0%, rgba(200,168,74,.14), transparent 58%),
+        linear-gradient(180deg, #ffffff, #fbfdff);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1220px;margin:0 auto;padding:22px 18px 70px}
+
+    /* top bar */
+    .top{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      position:sticky;top:0;z-index:50;padding:12px 0;
+      backdrop-filter: blur(10px);
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 12px;border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.75);
+      box-shadow: var(--shadow2);
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background: linear-gradient(135deg, var(--teal), var(--gold2));
+      box-shadow: 0 0 0 6px rgba(14,165,164,.12);
+    }
+    .brand .kicker{font-size:12px;letter-spacing:.18em;opacity:.9}
+    .brand b{display:block;font-size:14px;letter-spacing:.3px}
+    .brand small{display:block;color:var(--muted2);margin-top:2px;font-size:12px}
+
+    .nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:10px 14px;border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.85);
+      color:var(--text);
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      cursor:pointer; user-select:none; white-space:nowrap;
+      box-shadow: var(--shadow2);
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: var(--stroke2);
+      background: rgba(255,255,255,.96);
+    }
+    .btn.primary{
+      border-color: rgba(14,165,164,.35);
+      background: linear-gradient(135deg, rgba(14,165,164,.16), rgba(200,168,74,.10));
+    }
+    .btn.teal{
+      border-color: rgba(14,165,164,.45);
+      background: linear-gradient(135deg, rgba(14,165,164,.92), rgba(20,184,166,.72));
+      color: #071015;
+    }
+    .btn.gold{
+      border-color: rgba(200,168,74,.55);
+      background: linear-gradient(135deg, rgba(242,209,124,.98), rgba(200,168,74,.70));
+      color:#141006;
+    }
+    .btn.danger{
+      border-color: rgba(239,68,68,.28);
+      background: rgba(239,68,68,.10);
+      color:#7f1d1d;
+    }
+
+    /* hero */
+    .hero{
+      margin-top:10px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.88);
+      border-radius: var(--r2);
+      padding:20px;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(780px 260px at 20% 0%, rgba(14,165,164,.14), transparent 60%),
+        radial-gradient(760px 280px at 88% 35%, rgba(200,168,74,.16), transparent 62%);
+      pointer-events:none;
+    }
+
+    .badge{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:7px 10px;border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.78);
+      color:var(--muted);
+      font-size:12px;
+      position:relative;
+      box-shadow: var(--shadow2);
+    }
+    .pill{
+      padding:3px 8px;border-radius:999px;
+      background: rgba(242,209,124,.34);
+      border:1px solid rgba(200,168,74,.40);
+      color:#4a3708;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+
+    h1{
+      margin:12px 0 10px;
+      font-size: clamp(28px, 3.6vw, 48px);
+      line-height:1.05;
+      letter-spacing:-.5px;
+      position:relative;
+    }
+    .sub{
+      color:var(--muted);
+      font-size: 15.5px;
+      max-width: 74ch;
+      line-height:1.6;
+      position:relative;
+    }
+
+    .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;position:relative}
+    .chip{
+      padding:9px 12px;border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(247,250,252,.88);
+      color:var(--muted);
+      font-size:13px;
+      box-shadow: var(--shadow2);
+    }
+    .hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;position:relative}
+
+    /* Featured Pixar-style wedding gallery strip */
+    .featured{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      position:relative;
+    }
+    @media(max-width: 980px){ .featured{grid-template-columns:1fr} }
+    .featureHero{
+      border:1px solid var(--stroke);
+      border-radius: var(--r2);
+      background: linear-gradient(135deg, rgba(14,165,164,.08), rgba(242,209,124,.10));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      min-height: 240px;
+      position:relative;
+      padding:18px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .featureHero .txt{
+      max-width: 60%;
+    }
+    .featureHero h3{
+      margin:0 0 6px;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    .featureHero p{
+      margin:0;
+      color:var(--muted);
+      font-size: 13px;
+      line-height:1.45;
+    }
+    .miniShots{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    .shot{
+      border:1px solid var(--stroke);
+      border-radius: 18px;
+      overflow:hidden;
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow2);
+      min-height: 114px;
+      position:relative;
+    }
+    .shot .cap{
+      position:absolute; left:10px; bottom:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(255,255,255,.88);
+      font-size:12px;
+      color: var(--muted);
+      box-shadow: var(--shadow2);
+    }
+
+    /* main grid */
+    .main{display:grid;grid-template-columns:330px 1fr;gap:18px;margin-top:18px;align-items:start}
+    @media (max-width: 980px){ .main{grid-template-columns:1fr} }
+
+    /* sidebar */
+    .side{
+      position:sticky;top:78px;
+      border:1px solid var(--stroke);
+      border-radius: var(--r2);
+      background: rgba(255,255,255,.86);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .sidehead{padding:16px 16px 12px;border-bottom:1px solid var(--stroke);background: rgba(247,250,252,.95)}
+    .sidehead b{display:block}
+    .sidehead small{color:var(--muted2)}
+    .tablist{display:flex;flex-direction:column;padding:10px}
+    .tabbtn{
+      text-align:left;padding:10px 12px;border-radius:14px;border:1px solid transparent;color:var(--muted);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;
+      transition:background .12s ease,border-color .12s ease,transform .12s ease;user-select:none
+    }
+    .tabbtn:hover{background:rgba(14,165,164,.06);transform:translateY(-1px)}
+    .tabbtn.active{
+      background: linear-gradient(135deg, rgba(14,165,164,.14), rgba(242,209,124,.10));
+      border-color: rgba(14,165,164,.22);
+      color: var(--text);
+    }
+    .count{
+      font-family:var(--mono);font-size:12px;color:var(--muted2);
+      padding:2px 8px;border-radius:999px;border:1px solid var(--stroke);
+      background: rgba(255,255,255,.92)
+    }
+
+    /* cards */
+    .content{display:flex;flex-direction:column;gap:16px}
+    .card{
+      border:1px solid var(--stroke);
+      border-radius: var(--r2);
+      background: rgba(255,255,255,.90);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardh{
+      padding:16px 18px;border-bottom:1px solid var(--stroke);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      background: rgba(247,250,252,.95);
+    }
+    .cardh h2{margin:0;font-size:16px;letter-spacing:.2px}
+    .cardh p{margin:0;color:var(--muted2);font-size:12.5px}
+    .cardb{padding:18px}
+
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width: 760px){ .grid2{grid-template-columns:1fr} }
+
+    .kpi{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.92);
+      border-radius:18px;
+      padding:14px;
+      box-shadow: var(--shadow2);
+    }
+    .kpi b{display:block;font-size:12px;color:var(--muted2);font-weight:900;letter-spacing:.08em}
+    .kpi span{display:block;margin-top:6px;font-size:18px}
+    .kpi small{color:var(--muted2)}
+    .divider{height:1px;background:var(--stroke);margin:14px 0}
+    .hint{color:var(--muted2);font-size:12.5px;line-height:1.45}
+    .mono{font-family:var(--mono)}
+
+    label{display:block;font-size:12px;color:var(--muted2);margin-bottom:6px}
+    input,textarea,select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--stroke);
+      background: rgba(247,250,252,.98);
+      color:var(--text);
+      outline:none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
+    }
+    textarea{min-height:110px;resize:vertical}
+
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .pillmini{
+      padding:3px 8px;border-radius:999px;border:1px solid var(--stroke);
+      background: rgba(255,255,255,.92);
+      color:var(--muted2);
+      font-size:12px;font-family:var(--mono)
+    }
+
+    .imggrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    @media(max-width:900px){.imggrid{grid-template-columns:repeat(2,1fr)}}
+    .tile{
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      overflow:hidden;
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow2);
+    }
+    .tile img{width:100%;height:130px;object-fit:cover;display:block}
+    .tile .ph{
+      height:130px;display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(135deg, rgba(14,165,164,.14), rgba(242,209,124,.16));
+      color: rgba(11,18,32,.58);
+      font-size:12px;
+    }
+    .tile .meta{padding:10px}
+    .tile .meta b{display:block;font-size:13px}
+    .tile .meta small{color:var(--muted2)}
+
+    footer{margin-top:26px;color:var(--muted2);text-align:center;font-size:12.5px}
+
+    /* toast */
+    #toast{
+      position:fixed; left:50%; bottom:22px; transform:translateX(-50%);
+      padding:10px 14px; border-radius:999px;
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(255,255,255,.92);
+      color: rgba(11,18,32,.85);
+      box-shadow: var(--shadow);
+      z-index:9999; font-size:13px;
+      opacity:0; transition:opacity .18s ease;
+      pointer-events:none;
+    }
+
+    /* View mode (guest) */
+    .viewOnly .top .nav,
+    .viewOnly .side,
+    .viewOnly .hero-ctas,
+    .viewOnly .cardb .row button,
+    .viewOnly .cardb input,
+    .viewOnly .cardb textarea,
+    .viewOnly .cardb select {
+      display:none !important;
+    }
+    .viewOnly .tabbtn{pointer-events:none;opacity:.55}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="top">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>
+          <div class="kicker">WEDDING</div>
+          <b>MasterPlan</b>
+          <small>Luxury Light • Teal / Gold / White</small>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn primary" onclick="openTab('share')">Share</button>
+        <button class="btn gold" onclick="openTab('registry')">Registry</button>
+        <button class="btn teal" onclick="openTab('gallery')">Photo Gallery</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="badge"><span class="pill">Luxury Light Edition</span> <span>White background • teal • metallic gold • black</span></div>
+      <h1>Elegant wedding planning — one shared link for everyone.</h1>
+      <p class="sub">
+        Photos, posts, seating chart, contacts + reminders, suggestions, registry, dress shopping links, playlist,
+        and wedding party profiles — all themed like a premium bridal brand.
+      </p>
+
+      <div class="chips">
+        <div class="chip">Shared Hub</div>
+        <div class="chip">Pixar-style Wedding Photos</div>
+        <div class="chip">Posts + Updates</div>
+        <div class="chip">Seating Chart</div>
+        <div class="chip">Contacts + SMS</div>
+        <div class="chip">Registry</div>
+        <div class="chip">Shopping Links</div>
+        <div class="chip">Playlist</div>
+      </div>
+
+      <div class="hero-ctas">
+        <button class="btn teal" onclick="openTab('share')">Create Share Link</button>
+        <button class="btn gold" onclick="openTab('seating')">Build Seating</button>
+        <button class="btn primary" onclick="openTab('posts')">Post an Update</button>
+      </div>
+
+      <!-- Featured Adult Pixar-style wedding photo placeholders -->
+      <div class="featured">
+        <div class="featureHero">
+          <div class="txt">
+            <h3>✨ Adult Pixar-style wedding moments</h3>
+            <p>
+              These are styled placeholders. Replace them anytime with your own photo URLs in the Photo Gallery tab.
+            </p>
+            <div class="row" style="margin-top:10px">
+              <span class="pillmini">soft glam</span>
+              <span class="pillmini">luxury lighting</span>
+              <span class="pillmini">teal & gold mood</span>
+            </div>
+          </div>
+
+          <!-- Inline SVG “Pixar-ish” hero wedding art -->
+          <svg width="310" height="190" viewBox="0 0 310 190" style="border-radius:22px;border:1px solid rgba(15,23,42,.10);background:rgba(255,255,255,.85);box-shadow:var(--shadow2)">
+            <defs>
+              <linearGradient id="bg" x1="0" x2="1">
+                <stop offset="0" stop-color="rgba(14,165,164,.18)"/>
+                <stop offset="1" stop-color="rgba(242,209,124,.22)"/>
+              </linearGradient>
+              <linearGradient id="gold" x1="0" x2="1">
+                <stop offset="0" stop-color="#c8a84a"/>
+                <stop offset="1" stop-color="#f2d17c"/>
+              </linearGradient>
+              <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0b1220" flood-opacity=".12"/>
+              </filter>
+            </defs>
+            <rect x="12" y="12" width="286" height="166" rx="22" fill="url(#bg)"/>
+            <!-- simple tux + dress couple -->
+            <g filter="url(#sh)">
+              <circle cx="120" cy="78" r="26" fill="#ffd8c2"/>
+              <circle cx="190" cy="78" r="26" fill="#f8cbb7"/>
+              <path d="M100 164c6-32 22-54 46-54s40 22 46 54" fill="rgba(14,165,164,.18)"/>
+              <path d="M160 110c-10 6-22 6-30 0 6 24 2 54 2 54h50s-4-30 2-54c-8 6-20 6-24 0z" fill="white" opacity=".95"/>
+              <path d="M100 120c8-16 18-24 30-24s22 8 30 24" fill="rgba(0,0,0,.08)"/>
+              <!-- bow + bouquet -->
+              <circle cx="118" cy="68" r="4" fill="rgba(0,0,0,.18)"/>
+              <path d="M180 130c10-8 18-8 28 0-6 12-14 20-28 26-14-6-22-14-28-26 10-8 18-8 28 0z" fill="url(#gold)" opacity=".9"/>
+            </g>
+            <text x="22" y="30" font-size="12" fill="rgba(11,18,32,.60)" font-family="system-ui">Pixar-style Wedding Preview</text>
+          </svg>
+        </div>
+
+        <div class="miniShots">
+          <div class="shot">
+            <svg width="100%" height="100%" viewBox="0 0 220 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="m1" x1="0" x2="1">
+                  <stop offset="0" stop-color="rgba(14,165,164,.18)"/>
+                  <stop offset="1" stop-color="rgba(255,255,255,.70)"/>
+                </linearGradient>
+              </defs>
+              <rect width="220" height="120" fill="url(#m1)"/>
+              <circle cx="70" cy="64" r="22" fill="rgba(255,216,194,.92)"/>
+              <circle cx="140" cy="64" r="22" fill="rgba(248,203,183,.92)"/>
+              <rect x="55" y="85" width="110" height="18" rx="9" fill="rgba(200,168,74,.40)"/>
+            </svg>
+            <div class="cap">Engagement</div>
+          </div>
+
+          <div class="shot">
+            <svg width="100%" height="100%" viewBox="0 0 220 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="m2" x1="0" x2="1">
+                  <stop offset="0" stop-color="rgba(242,209,124,.22)"/>
+                  <stop offset="1" stop-color="rgba(255,255,255,.70)"/>
+                </linearGradient>
+              </defs>
+              <rect width="220" height="120" fill="url(#m2)"/>
+              <circle cx="110" cy="64" r="26" fill="rgba(255,216,194,.92)"/>
+              <path d="M80 105c14-18 46-18 60 0" fill="rgba(14,165,164,.22)"/>
+            </svg>
+            <div class="cap">Bride Glam</div>
+          </div>
+
+          <div class="shot">
+            <svg width="100%" height="100%" viewBox="0 0 220 120" preserveAspectRatio="none">
+              <rect width="220" height="120" fill="rgba(14,165,164,.12)"/>
+              <rect x="34" y="34" width="152" height="52" rx="18" fill="rgba(255,255,255,.72)"/>
+              <rect x="50" y="50" width="120" height="10" rx="5" fill="rgba(0,0,0,.10)"/>
+              <rect x="50" y="68" width="92" height="10" rx="5" fill="rgba(200,168,74,.40)"/>
+            </svg>
+            <div class="cap">Venue Notes</div>
+          </div>
+
+          <div class="shot">
+            <svg width="100%" height="100%" viewBox="0 0 220 120" preserveAspectRatio="none">
+              <rect width="220" height="120" fill="rgba(242,209,124,.18)"/>
+              <circle cx="60" cy="66" r="18" fill="rgba(255,255,255,.75)"/>
+              <circle cx="95" cy="66" r="18" fill="rgba(255,255,255,.75)"/>
+              <circle cx="130" cy="66" r="18" fill="rgba(255,255,255,.75)"/>
+              <circle cx="165" cy="66" r="18" fill="rgba(255,255,255,.75)"/>
+            </svg>
+            <div class="cap">Party Team</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="main">
+      <!-- SIDEBAR -->
+      <aside class="side">
+        <div class="sidehead">
+          <b>Wedding Modules</b>
+          <small>Luxury teal + gold theme</small>
+        </div>
+        <div class="tablist">
+          <div class="tabbtn active" data-tab="share" onclick="openTab('share')"><span>Share</span><span class="count">link</span></div>
+          <div class="tabbtn" data-tab="gallery" onclick="openTab('gallery')"><span>Photo Gallery</span><span class="count">pics</span></div>
+          <div class="tabbtn" data-tab="party" onclick="openTab('party')"><span>Wedding Party</span><span class="count">team</span></div>
+          <div class="tabbtn" data-tab="posts" onclick="openTab('posts')"><span>Posts</span><span class="count">feed</span></div>
+          <div class="tabbtn" data-tab="seating" onclick="openTab('seating')"><span>Seating Chart</span><span class="count">map</span></div>
+          <div class="tabbtn" data-tab="contacts" onclick="openTab('contacts')"><span>Contacts + SMS</span><span class="count">msg</span></div>
+          <div class="tabbtn" data-tab="suggestions" onclick="openTab('suggestions')"><span>Suggestions</span><span class="count">ideas</span></div>
+          <div class="tabbtn" data-tab="registry" onclick="openTab('registry')"><span>Registry List</span><span class="count">gift</span></div>
+          <div class="tabbtn" data-tab="shopping" onclick="openTab('shopping')"><span>Dress + Shop Links</span><span class="count">buy</span></div>
+          <div class="tabbtn" data-tab="playlist" onclick="openTab('playlist')"><span>Playlist</span><span class="count">music</span></div>
+          <div class="tabbtn" data-tab="links" onclick="openTab('links')"><span>Links + Photos</span><span class="count">url</span></div>
+        </div>
+      </aside>
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <!-- SHARE -->
+        <div class="card section active" id="tab-share">
+          <div class="cardh">
+            <div>
+              <h2>Share Hub</h2>
+              <p>Create a share code for planner + clients + wedding party</p>
+            </div>
+            <div class="badge"><span class="pill">Shared</span> <span class="mono" id="shareCodeBadge">—</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Share Code</label>
+                <input id="shareCode" placeholder="Click Generate (or type your own)"/>
+                <p class="hint">
+                  Anyone using the same share code can view the hub via the share links.
+                  For real multi-user live sharing, add a backend (Supabase / Worker).
+                </p>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="generateShare()">Generate</button>
+                  <button class="btn gold" onclick="applyShare()">Use Code</button>
+                </div>
+              </div>
+
+              <div class="kpi">
+                <b>Backend Base URL (Optional)</b>
+                <span class="mono" id="baseLbl">Not set</span>
+                <div class="divider"></div>
+                <label>Base URL</label>
+                <input id="baseUrl" placeholder="e.g., https://your-worker.example"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn primary" onclick="setBase()">Save Base</button>
+                  <button class="btn" onclick="loadAll()">Load Shared Data</button>
+                </div>
+                <p class="hint">Without a backend, data saves in your browser only.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GALLERY -->
+        <div class="card section" id="tab-gallery">
+          <div class="cardh">
+            <div>
+              <h2>Photo Gallery</h2>
+              <p>Add wedding pics (URL) + share view link</p>
+            </div>
+            <div class="badge"><span class="pill">Pics</span> <span class="mono" id="galleryCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Add photo (URL) + caption</label>
+                <input id="gUrl" placeholder="Paste image URL (Drive direct link / Imgur / etc.)"/>
+                <div style="height:10px"></div>
+                <input id="gCap" placeholder="Caption (Engagement, Venue Tour, Bridal Shower...)"/>
+                <div style="height:10px"></div>
+                <input id="gLink" placeholder="Optional link (album / photographer site)"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addGallery()">Add Photo</button>
+                  <button class="btn gold" onclick="copyViewLink('gallery')">Copy View Link</button>
+                </div>
+
+                <div class="divider"></div>
+                <p class="hint">
+                  ✨ Want REAL Pixar wedding photos generated?  
+                  I can generate a matching photo pack for: engagement, bride/groom, bridal party, venue, decor.
+                </p>
+              </div>
+
+              <div class="kpi">
+                <b>Gallery View Link</b>
+                <span class="mono" id="galleryView">—</span>
+                <div class="divider"></div>
+                <div class="hint">Share this with guests to view the gallery.</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="imggrid" id="galleryGrid"></div>
+          </div>
+        </div>
+
+        <!-- PARTY -->
+        <div class="card section" id="tab-party">
+          <div class="cardh">
+            <div>
+              <h2>Wedding Party</h2>
+              <p>Add photos, roles, and links</p>
+            </div>
+            <div class="badge"><span class="pill">Team</span> <span class="mono" id="partyCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Add member</label>
+                <input id="pName" placeholder="Name"/>
+                <div style="height:10px"></div>
+                <input id="pRole" placeholder="Role (Best Man, Maid of Honor, Bridesmaid...)"/>
+                <div style="height:10px"></div>
+                <input id="pPhoto" placeholder="Photo URL"/>
+                <div style="height:10px"></div>
+                <input id="pLink" placeholder="Optional link (Instagram / site)"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addParty()">Add Member</button>
+                  <button class="btn gold" onclick="copyViewLink('party')">Copy View Link</button>
+                </div>
+              </div>
+              <div class="kpi">
+                <b>Elegant Display</b>
+                <div class="divider"></div>
+                <div class="hint">This automatically shows the wedding party in a “premium gallery” layout.</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="imggrid" id="partyGrid"></div>
+          </div>
+        </div>
+
+        <!-- POSTS -->
+        <div class="card section" id="tab-posts">
+          <div class="cardh">
+            <div>
+              <h2>Posts</h2>
+              <p>Announcements + updates with links/photos</p>
+            </div>
+            <div class="badge"><span class="pill">Feed</span> <span class="mono" id="postCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>New post</label>
+                <input id="postTitle" placeholder="Title (Dress fitting, rehearsal dinner, etc.)"/>
+                <div style="height:10px"></div>
+                <textarea id="postBody" placeholder="Write your update..."></textarea>
+                <div style="height:10px"></div>
+                <input id="postPhoto" placeholder="Optional photo URL"/>
+                <div style="height:10px"></div>
+                <input id="postLink" placeholder="Optional link (RSVP, venue, etc.)"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addPost()">Publish</button>
+                  <button class="btn gold" onclick="copyViewLink('posts')">Copy View Link</button>
+                </div>
+              </div>
+              <div class="kpi">
+                <b>Shareable Feed</b>
+                <div class="divider"></div>
+                <div class="hint">Perfect for wedding party updates and reminders.</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="postsList"></div>
+          </div>
+        </div>
+
+        <!-- SEATING -->
+        <div class="card section" id="tab-seating">
+          <div class="cardh">
+            <div>
+              <h2>Seating Chart</h2>
+              <p>Create tables + assign guests</p>
+            </div>
+            <div class="badge"><span class="pill">Map</span> <span class="mono" id="seatCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Create a table</label>
+                <input id="tName" placeholder="Table name (Table 1 / Family / Friends)"/>
+                <input id="tLink" style="margin-top:10px" placeholder="Optional link (layout doc / inspo)"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addTable()">Add Table</button>
+                  <button class="btn gold" onclick="copyViewLink('seating')">Copy View Link</button>
+                </div>
+              </div>
+
+              <div class="kpi">
+                <b>Assign Guest</b>
+                <div class="divider"></div>
+                <label>Choose table</label>
+                <select id="seatTable"></select>
+                <div style="height:10px"></div>
+                <input id="seatGuest" placeholder="Guest name"/>
+                <input id="seatNote" style="margin-top:10px" placeholder="Optional note (diet, plus-one, etc.)"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn primary" onclick="assignSeat()">Assign</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="seatingView"></div>
+          </div>
+        </div>
+
+        <!-- CONTACTS -->
+        <div class="card section" id="tab-contacts">
+          <div class="cardh">
+            <div>
+              <h2>Contacts + SMS Reminders</h2>
+              <p>Save contacts and tap-to-text reminders</p>
+            </div>
+            <div class="badge"><span class="pill">Msg</span> <span class="mono" id="contactCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Add contact</label>
+                <input id="cName" placeholder="Name"/>
+                <div style="height:10px"></div>
+                <input id="cRole" placeholder="Role (DJ, Photographer, Bridesmaid...)"/>
+                <div style="height:10px"></div>
+                <input id="cPhone" placeholder="Phone (+1XXXXXXXXXX)"/>
+                <div style="height:10px"></div>
+                <input id="cEmail" placeholder="Email"/>
+                <div style="height:10px"></div>
+                <input id="cLink" placeholder="Link (website / Instagram / contract)"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addContact()">Save</button>
+                  <button class="btn gold" onclick="copyViewLink('contacts')">Copy View Link</button>
+                </div>
+                <p class="hint">
+                  SMS reminder uses your phone’s message app.
+                  For real “send from site,” we add Twilio in a backend.
+                </p>
+              </div>
+
+              <div class="kpi">
+                <b>Default Reminder Text</b>
+                <div class="divider"></div>
+                <textarea id="smsTemplate" placeholder="Reminder: fitting at 3pm tomorrow. Please confirm."></textarea>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn primary" onclick="toast('Saved (local)')">Save Template</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="contactsList"></div>
+          </div>
+        </div>
+
+        <!-- SUGGESTIONS -->
+        <div class="card section" id="tab-suggestions">
+          <div class="cardh">
+            <div>
+              <h2>Wedding Suggestions</h2>
+              <p>Let others submit ideas with photos + links</p>
+            </div>
+            <div class="badge"><span class="pill">Ideas</span> <span class="mono" id="sugCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Submit a suggestion</label>
+                <input id="sBy" placeholder="Your name"/>
+                <div style="height:10px"></div>
+                <input id="sTitle" placeholder="Suggestion title"/>
+                <div style="height:10px"></div>
+                <textarea id="sBody" placeholder="Describe the idea..."></textarea>
+                <div style="height:10px"></div>
+                <input id="sPhoto" placeholder="Optional photo URL"/>
+                <div style="height:10px"></div>
+                <input id="sLink" placeholder="Optional link (vendor, Pinterest, etc.)"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addSuggestion()">Submit</button>
+                  <button class="btn gold" onclick="copyViewLink('suggestions')">Copy View Link</button>
+                </div>
+              </div>
+
+              <div class="kpi">
+                <b>Shared collaboration</b>
+                <div class="divider"></div>
+                <div class="hint">This is your “wedding party idea box.” Everyone can suggest and attach links/photos.</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="suggestionsList"></div>
+          </div>
+        </div>
+
+        <!-- REGISTRY -->
+        <div class="card section" id="tab-registry">
+          <div class="cardh">
+            <div>
+              <h2>Registry List</h2>
+              <p>Add registry items with photos + links</p>
+            </div>
+            <div class="badge"><span class="pill">Gift</span> <span class="mono" id="regCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Add item</label>
+                <input id="rName" placeholder="Item name"/>
+                <div style="height:10px"></div>
+                <input id="rStore" placeholder="Store (Amazon, Target...)"/>
+                <div style="height:10px"></div>
+                <input id="rLink" placeholder="Buy link"/>
+                <div style="height:10px"></div>
+                <input id="rPhoto" placeholder="Optional photo URL"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addRegistry()">Add</button>
+                  <button class="btn gold" onclick="copyViewLink('registry')">Copy View Link</button>
+                </div>
+              </div>
+
+              <div class="kpi">
+                <b>Guest-friendly</b>
+                <div class="divider"></div>
+                <div class="hint">Share the registry view link so guests can tap to buy.</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="registryList"></div>
+          </div>
+        </div>
+
+        <!-- SHOPPING -->
+        <div class="card section" id="tab-shopping">
+          <div class="cardh">
+            <div>
+              <h2>Dress + Wedding Shopping Links</h2>
+              <p>Save dress options + wedding items with photos</p>
+            </div>
+            <div class="badge"><span class="pill">Buy</span> <span class="mono" id="shopCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Add shopping link</label>
+                <input id="shTitle" placeholder="Title (Bridesmaid dress option 1)"/>
+                <div style="height:10px"></div>
+                <input id="shLink" placeholder="Website link"/>
+                <div style="height:10px"></div>
+                <input id="shPhoto" placeholder="Optional photo URL"/>
+                <div style="height:10px"></div>
+                <input id="shNote" placeholder="Notes (size/colors/price)"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addShopping()">Add</button>
+                  <button class="btn gold" onclick="copyViewLink('shopping')">Copy View Link</button>
+                </div>
+              </div>
+
+              <div class="kpi">
+                <b>Luxury list</b>
+                <div class="divider"></div>
+                <div class="hint">Use this for dresses, shoes, decor, gifts, rings — anything shopping related.</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="shoppingList"></div>
+          </div>
+        </div>
+
+        <!-- PLAYLIST -->
+        <div class="card section" id="tab-playlist">
+          <div class="cardh">
+            <div>
+              <h2>Playlist Suggestions</h2>
+              <p>Add music links + comments</p>
+            </div>
+            <div class="badge"><span class="pill">Music</span> <span class="mono" id="musicCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Add song</label>
+                <input id="mBy" placeholder="Your name"/>
+                <div style="height:10px"></div>
+                <input id="mSong" placeholder="Song + artist"/>
+                <div style="height:10px"></div>
+                <input id="mLink" placeholder="Spotify / Apple Music / YouTube link"/>
+                <div style="height:10px"></div>
+                <input id="mComment" placeholder="Comment (first dance? party song?)"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addMusic()">Add</button>
+                  <button class="btn gold" onclick="copyViewLink('playlist')">Copy View Link</button>
+                </div>
+              </div>
+
+              <div class="kpi">
+                <b>Music votes?</b>
+                <div class="divider"></div>
+                <div class="hint">If you want likes/votes, we’ll add it with Step 2 backend rules.</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="musicList"></div>
+          </div>
+        </div>
+
+        <!-- UNIVERSAL LINKS -->
+        <div class="card section" id="tab-links">
+          <div class="cardh">
+            <div>
+              <h2>Links + Photos Library</h2>
+              <p>Save any wedding links/photos by category</p>
+            </div>
+            <div class="badge"><span class="pill">URL</span> <span class="mono" id="linkCount">0</span></div>
+          </div>
+          <div class="cardb">
+            <div class="grid2">
+              <div>
+                <label>Category</label>
+                <select id="uCat">
+                  <option>Venue</option><option>Decor</option><option>Florals</option><option>Photography</option>
+                  <option>Food</option><option>Dresses</option><option>Suits</option><option>Registry</option>
+                  <option>Playlist</option><option>Other</option>
+                </select>
+
+                <div style="height:10px"></div>
+                <input id="uTitle" placeholder="Title"/>
+                <div style="height:10px"></div>
+                <input id="uLink" placeholder="Website link"/>
+                <div style="height:10px"></div>
+                <input id="uPhoto" placeholder="Optional photo URL"/>
+                <div style="height:10px"></div>
+                <input id="uNote" placeholder="Notes"/>
+                <div class="row" style="margin-top:10px">
+                  <button class="btn teal" onclick="addUniversal()">Save</button>
+                  <button class="btn gold" onclick="copyViewLink('links')">Copy View Link</button>
+                </div>
+              </div>
+
+              <div class="kpi">
+                <b>All-in-one</b>
+                <div class="divider"></div>
+                <div class="hint">This is your universal library of wedding links & references.</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="universalList"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>© <span id="yr"></span> Wedding MasterPlan — Luxury Light Edition</footer>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    // --------- Helpers ----------
+    const $ = (id)=>document.getElementById(id);
+    function toast(msg){
+      const t = $("toast");
+      t.textContent = msg;
+      t.style.opacity = "1";
+      clearTimeout(window.__tt);
+      window.__tt = setTimeout(()=>t.style.opacity="0", 1800);
+    }
+    function escapeHtml(s){
+      return String(s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    function openTab(key){
+      document.querySelectorAll(".tabbtn").forEach(b=>b.classList.toggle("active", b.dataset.tab===key));
+      document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+      const el = $("tab-"+key);
+      if(el) el.classList.add("active");
+      location.hash = key;
+    }
+
+    // --------- State ----------
+    const state = {
+      shareCode: localStorage.getItem("wm_shareCode") || "",
+      baseUrl: localStorage.getItem("wm_baseUrl") || "",
+      gallery: [],
+      party: [],
+      posts: [],
+      seating: { tables: [], assigns: [] },
+      contacts: [],
+      suggestions: [],
+      registry: [],
+      shopping: [],
+      playlist: [],
+      universal: []
+    };
+
+    // local shared key by share code
+    function localKey(){ return "wm_local_" + (state.shareCode || "DEMO"); }
+
+    function loadLocal(){
+      const raw = localStorage.getItem(localKey());
+      if(!raw) return;
+      try{
+        const d = JSON.parse(raw);
+        Object.assign(state, d);
+      }catch(e){}
+    }
+    function saveLocal(){
+      const payload = JSON.stringify({
+        gallery: state.gallery,
+        party: state.party,
+        posts: state.posts,
+        seating: state.seating,
+        contacts: state.contacts,
+        suggestions: state.suggestions,
+        registry: state.registry,
+        shopping: state.shopping,
+        playlist: state.playlist,
+        universal: state.universal
+      });
+      localStorage.setItem(localKey(), payload);
+    }
+
+    async function saveRemote(){
+      if(!state.baseUrl || !state.shareCode) return false;
+      const base = state.baseUrl.replace(/\/$/,"");
+      const payload = { code: state.shareCode, data: {
+        gallery: state.gallery, party: state.party, posts: state.posts,
+        seating: state.seating, contacts: state.contacts, suggestions: state.suggestions,
+        registry: state.registry, shopping: state.shopping, playlist: state.playlist, universal: state.universal
+      }};
+      try{
+        const r = await fetch(base + "/save", {method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payload)});
+        if(!r.ok) throw new Error("bad");
+        return true;
+      }catch(e){
+        return false;
+      }
+    }
+    async function loadRemote(){
+      if(!state.baseUrl || !state.shareCode) return false;
+      const base = state.baseUrl.replace(/\/$/,"");
+      try{
+        const r = await fetch(base + "/load?code=" + encodeURIComponent(state.shareCode));
+        if(!r.ok) throw new Error("bad");
+        const j = await r.json();
+        if(j && j.data){
+          Object.assign(state, j.data);
+          return true;
+        }
+        return false;
+      }catch(e){ return false; }
+    }
+
+    async function saveAll(){
+      saveLocal();
+      const ok = await saveRemote();
+      toast(ok ? "Saved (shared)" : "Saved (local)");
+      renderAll();
+    }
+    async function loadAll(){
+      loadLocal();
+      const ok = await loadRemote();
+      if(ok) toast("Loaded shared data");
+      renderAll();
+      refreshViewLinks();
+    }
+
+    // --------- Share ----------
+    function randCode(){
+      return Math.random().toString(36).slice(2,7).toUpperCase() + "-" + Math.random().toString(36).slice(2,5).toUpperCase();
+    }
+    function generateShare(){
+      $("shareCode").value = randCode();
+      applyShare();
+    }
+    function applyShare(){
+      const c = $("shareCode").value.trim();
+      if(!c){ toast("Enter a share code"); return; }
+      state.shareCode = c;
+      localStorage.setItem("wm_shareCode", c);
+      $("shareCodeBadge").textContent = c;
+      refreshViewLinks();
+      toast("Share code set");
+      loadAll();
+    }
+    function setBase(){
+      const b = $("baseUrl").value.trim();
+      state.baseUrl = b;
+      localStorage.setItem("wm_baseUrl", b);
+      $("baseLbl").textContent = b ? b : "Not set";
+      toast(b ? "Base URL saved" : "Base URL cleared");
+    }
+
+    function viewLinkFor(module){
+      const c = state.shareCode || "DEMO";
+      return location.origin + location.pathname + "?view=" + encodeURIComponent(module) + "&code=" + encodeURIComponent(c);
+    }
+    function refreshViewLinks(){
+      $("shareCodeBadge").textContent = state.shareCode || "—";
+      $("galleryView").textContent = state.shareCode ? viewLinkFor("gallery") : "Set Share Code";
+    }
+    async function copyViewLink(module){
+      if(!state.shareCode){ toast("Set Share Code first"); openTab("share"); return; }
+      const link = viewLinkFor(module);
+      try{ await navigator.clipboard.writeText(link); toast("View link copied"); }
+      catch(e){ toast("Copy failed — copy manually"); }
+    }
+
+    // --------- Renderers ----------
+    function renderGallery(){
+      const grid = $("galleryGrid");
+      grid.innerHTML = "";
+      state.gallery.forEach((it, idx)=>{
+        const d = document.createElement("div");
+        d.className="tile";
+        d.innerHTML = `
+          ${it.url ? `<img src="${escapeHtml(it.url)}" alt="photo"/>` : `<div class="ph">No image</div>`}
+          <div class="meta">
+            <b>${escapeHtml(it.caption || "Photo")}</b>
+            <small>${it.link ? `<a class="pillmini" href="${escapeHtml(it.link)}" target="_blank" rel="noopener">Open link</a>` : `<span class="pillmini">no link</span>`}</small>
+            <div class="row" style="margin-top:10px">
+              <button class="btn danger" onclick="removeItem('gallery',${idx})">Remove</button>
+            </div>
+          </div>`;
+        grid.appendChild(d);
+      });
+      $("galleryCount").textContent = String(state.gallery.length);
+    }
+
+    function renderParty(){
+      const grid = $("partyGrid");
+      grid.innerHTML = "";
+      state.party.forEach((m, idx)=>{
+        const d = document.createElement("div");
+        d.className="tile";
+        d.innerHTML = `
+          ${m.photo ? `<img src="${escapeHtml(m.photo)}" alt="member"/>` : `<div class="ph">Photo</div>`}
+          <div class="meta">
+            <b>${escapeHtml(m.name || "Member")}</b>
+            <small>${escapeHtml(m.role || "")}</small>
+            <div class="row" style="margin-top:10px">
+              ${m.link ? `<a class="btn primary" href="${escapeHtml(m.link)}" target="_blank" rel="noopener">Link</a>` : ``}
+              <button class="btn danger" onclick="removeItem('party',${idx})">Remove</button>
+            </div>
+          </div>`;
+        grid.appendChild(d);
+      });
+      $("partyCount").textContent = String(state.party.length);
+    }
+
+    function renderPosts(){
+      const box = $("postsList");
+      box.innerHTML = "";
+      state.posts.slice().reverse().forEach((p, rIdx)=>{
+        const idx = state.posts.length - 1 - rIdx;
+        const d = document.createElement("div");
+        d.className="kpi";
+        d.style.marginBottom="12px";
+        d.innerHTML = `
+          <b>${escapeHtml(p.title || "Update")}</b>
+          <div class="divider"></div>
+          <div class="hint">${escapeHtml(p.body || "")}</div>
+          <div class="divider"></div>
+          <div class="row">
+            ${p.photo ? `<a class="btn primary" href="${escapeHtml(p.photo)}" target="_blank" rel="noopener">Photo</a>` : ``}
+            ${p.link ? `<a class="btn gold" href="${escapeHtml(p.link)}" target="_blank" rel="noopener">Link</a>` : ``}
+            <button class="btn danger" onclick="removeItem('posts',${idx})">Delete</button>
+          </div>`;
+        box.appendChild(d);
+      });
+      $("postCount").textContent = String(state.posts.length);
+    }
+
+    function renderSeating(){
+      $("seatCount").textContent = String(state.seating.tables.length);
+
+      const sel = $("seatTable");
+      sel.innerHTML = "";
+      state.seating.tables.forEach((t, i)=>{
+        const opt = document.createElement("option");
+        opt.value = String(i);
+        opt.textContent = t.name;
+        sel.appendChild(opt);
+      });
+
+      const view = $("seatingView");
+      view.innerHTML = "";
+      state.seating.tables.forEach((t, i)=>{
+        const card = document.createElement("div");
+        card.className="kpi";
+        card.style.marginBottom="12px";
+        const guests = state.seating.assigns.filter(a=>a.tableIndex===i);
+        card.innerHTML = `
+          <b>${escapeHtml(t.name)}</b>
+          <div class="divider"></div>
+          <div class="row" style="margin-bottom:10px">
+            ${t.link ? `<a class="btn primary" href="${escapeHtml(t.link)}" target="_blank" rel="noopener">Table Link</a>` : `<span class="pillmini">no link</span>`}
+            <button class="btn danger" onclick="removeTable(${i})">Remove Table</button>
+          </div>
+          <div class="hint">${guests.length ? guests.map(g=>`• ${escapeHtml(g.guest)}${g.note?` — <span class="mono">${escapeHtml(g.note)}</span>`:""}`).join("<br/>") : "No guests assigned yet."}</div>
+        `;
+        view.appendChild(card);
+      });
+    }
+
+    function renderSuggestions(){
+      $("sugCount").textContent = String(state.suggestions.length);
+      const list = $("suggestionsList");
+      list.innerHTML = "";
+      state.suggestions.slice().reverse().forEach((s, rIdx)=>{
+        const idx = state.suggestions.length - 1 - rIdx;
+        const d = document.createElement("div");
+        d.className="kpi";
+        d.style.marginBottom="12px";
+        d.innerHTML = `
+          <b>${escapeHtml(s.title || "Suggestion")} <span class="pillmini">by ${escapeHtml(s.by || "anon")}</span></b>
+          <div class="divider"></div>
+          <div class="hint">${escapeHtml(s.body || "")}</div>
+          <div class="divider"></div>
+          <div class="row">
+            ${s.photo ? `<a class="btn primary" href="${escapeHtml(s.photo)}" target="_blank" rel="noopener">Photo</a>` : ``}
+            ${s.link ? `<a class="btn gold" href="${escapeHtml(s.link)}" target="_blank" rel="noopener">Link</a>` : ``}
+            <button class="btn danger" onclick="removeItem('suggestions',${idx})">Delete</button>
+          </div>
+        `;
+        list.appendChild(d);
+      });
+    }
+
+    function renderRegistry(){
+      $("regCount").textContent = String(state.registry.length);
+      const list = $("registryList");
+      list.innerHTML = "";
+      state.registry.forEach((r, idx)=>{
+        const d = document.createElement("div");
+        d.className="kpi";
+        d.style.marginBottom="12px";
+        d.innerHTML = `
+          <b>${escapeHtml(r.name || "Item")} <span class="pillmini">${escapeHtml(r.store || "")}</span></b>
+          <div class="divider"></div>
+          <div class="row">
+            ${r.photo ? `<a class="btn primary" href="${escapeHtml(r.photo)}" target="_blank" rel="noopener">Photo</a>` : ``}
+            ${r.link ? `<a class="btn gold" href="${escapeHtml(r.link)}" target="_blank" rel="noopener">Buy</a>` : `<span class="pillmini">no link</span>`}
+            <button class="btn danger" onclick="removeItem('registry',${idx})">Delete</button>
+          </div>
+        `;
+        list.appendChild(d);
+      });
+    }
+
+    function renderShopping(){
+      $("shopCount").textContent = String(state.shopping.length);
+      const list = $("shoppingList");
+      list.innerHTML = "";
+      state.shopping.forEach((s, idx)=>{
+        const d = document.createElement("div");
+        d.className="kpi";
+        d.style.marginBottom="12px";
+        d.innerHTML = `
+          <b>${escapeHtml(s.title || "Link")}</b>
+          <div class="divider"></div>
+          <div class="hint">${escapeHtml(s.note || "")}</div>
+          <div class="divider"></div>
+          <div class="row">
+            ${s.photo ? `<a class="btn primary" href="${escapeHtml(s.photo)}" target="_blank" rel="noopener">Photo</a>` : ``}
+            ${s.link ? `<a class="btn gold" href="${escapeHtml(s.link)}" target="_blank" rel="noopener">Open</a>` : `<span class="pillmini">no link</span>`}
+            <button class="btn danger" onclick="removeItem('shopping',${idx})">Delete</button>
+          </div>
+        `;
+        list.appendChild(d);
+      });
+    }
+
+    function renderPlaylist(){
+      $("musicCount").textContent = String(state.playlist.length);
+      const list = $("musicList");
+      list.innerHTML = "";
+      state.playlist.forEach((m, idx)=>{
+        const d = document.createElement("div");
+        d.className="kpi";
+        d.style.marginBottom="12px";
+        d.innerHTML = `
+          <b>${escapeHtml(m.song || "Song")} <span class="pillmini">by ${escapeHtml(m.by || "anon")}</span></b>
+          <div class="divider"></div>
+          <div class="hint">${escapeHtml(m.comment || "")}</div>
+          <div class="divider"></div>
+          <div class="row">
+            ${m.link ? `<a class="btn gold" href="${escapeHtml(m.link)}" target="_blank" rel="noopener">Play</a>` : `<span class="pillmini">no link</span>`}
+            <button class="btn danger" onclick="removeItem('playlist',${idx})">Delete</button>
+          </div>
+        `;
+        list.appendChild(d);
+      });
+    }
+
+    function renderUniversal(){
+      $("linkCount").textContent = String(state.universal.length);
+      const list = $("universalList");
+      list.innerHTML = "";
+      state.universal.forEach((u, idx)=>{
+        const d = document.createElement("div");
+        d.className="kpi";
+        d.style.marginBottom="12px";
+        d.innerHTML = `
+          <b>${escapeHtml(u.title || "Reference")} <span class="pillmini">${escapeHtml(u.cat || "Other")}</span></b>
+          <div class="divider"></div>
+          <div class="hint">${escapeHtml(u.note || "")}</div>
+          <div class="divider"></div>
+          <div class="row">
+            ${u.photo ? `<a class="btn primary" href="${escapeHtml(u.photo)}" target="_blank" rel="noopener">Photo</a>` : ``}
+            ${u.link ? `<a class="btn gold" href="${escapeHtml(u.link)}" target="_blank" rel="noopener">Open</a>` : `<span class="pillmini">no link</span>`}
+            <button class="btn danger" onclick="removeItem('universal',${idx})">Delete</button>
+          </div>
+        `;
+        list.appendChild(d);
+      });
+    }
+
+    function renderAll(){
+      renderGallery();
+      renderParty();
+      renderPosts();
+      renderSeating();
+      renderSuggestions();
+      renderRegistry();
+      renderShopping();
+      renderPlaylist();
+      renderUniversal();
+      refreshViewLinks();
+    }
+
+    // --------- Actions ----------
+    function removeItem(kind, idx){
+      if(!confirm("Delete this item?")) return;
+      state[kind].splice(idx,1);
+      saveAll();
+    }
+
+    function addGallery(){
+      const url = $("gUrl").value.trim();
+      const caption = $("gCap").value.trim();
+      const link = $("gLink").value.trim();
+      if(!url && !caption){ toast("Add image URL or caption"); return; }
+      state.gallery.push({url, caption, link});
+      $("gUrl").value=""; $("gCap").value=""; $("gLink").value="";
+      saveAll();
+    }
+
+    function addParty(){
+      const name = $("pName").value.trim();
+      if(!name){ toast("Name required"); return; }
+      state.party.push({
+        name,
+        role: $("pRole").value.trim(),
+        photo: $("pPhoto").value.trim(),
+        link: $("pLink").value.trim()
+      });
+      $("pName").value=""; $("pRole").value=""; $("pPhoto").value=""; $("pLink").value="";
+      saveAll();
+    }
+
+    function addPost(){
+      const title = $("postTitle").value.trim();
+      const body = $("postBody").value.trim();
+      if(!title && !body){ toast("Write a title or message"); return; }
+      state.posts.push({
+        title, body,
+        photo: $("postPhoto").value.trim(),
+        link: $("postLink").value.trim(),
+        ts: Date.now()
+      });
+      $("postTitle").value=""; $("postBody").value=""; $("postPhoto").value=""; $("postLink").value="";
+      saveAll();
+    }
+
+    function addTable(){
+      const name = $("tName").value.trim();
+      if(!name){ toast("Table name required"); return; }
+      state.seating.tables.push({name, link: $("tLink").value.trim()});
+      $("tName").value=""; $("tLink").value="";
+      saveAll();
+    }
+    function removeTable(i){
+      if(!confirm("Remove this table and its assignments?")) return;
+      state.seating.tables.splice(i,1);
+      state.seating.assigns = state.seating.assigns.filter(a=>a.tableIndex!==i).map(a=>({
+        ...a, tableIndex: a.tableIndex > i ? a.tableIndex-1 : a.tableIndex
+      }));
+      saveAll();
+    }
+    function assignSeat(){
+      const ti = Number($("seatTable").value);
+      const guest = $("seatGuest").value.trim();
+      if(!guest){ toast("Guest name required"); return; }
+      state.seating.assigns.push({tableIndex: ti, guest, note: $("seatNote").value.trim()});
+      $("seatGuest").value=""; $("seatNote").value="";
+      saveAll();
+    }
+
+    function addContact(){
+      const name = $("cName").value.trim();
+      if(!name){ toast("Name required"); return; }
+      state.contacts.push({
+        name,
+        role: $("cRole").value.trim(),
+        phone: $("cPhone").value.trim(),
+        email: $("cEmail").value.trim(),
+        link: $("cLink").value.trim()
+      });
+      $("cName").value=""; $("cRole").value=""; $("cPhone").value=""; $("cEmail").value=""; $("cLink").value="";
+      saveAll();
+    }
+
+    function addSuggestion(){
+      const title = $("sTitle").value.trim();
+      const body = $("sBody").value.trim();
+      if(!title && !body){ toast("Add title or details"); return; }
+      state.suggestions.push({
+        by: $("sBy").value.trim(),
+        title, body,
+        photo: $("sPhoto").value.trim(),
+        link: $("sLink").value.trim(),
+        ts: Date.now()
+      });
+      $("sBy").value=""; $("sTitle").value=""; $("sBody").value=""; $("sPhoto").value=""; $("sLink").value="";
+      saveAll();
+    }
+
+    function addRegistry(){
+      const name = $("rName").value.trim();
+      if(!name){ toast("Item name required"); return; }
+      state.registry.push({
+        name,
+        store: $("rStore").value.trim(),
+        link: $("rLink").value.trim(),
+        photo: $("rPhoto").value.trim()
+      });
+      $("rName").value=""; $("rStore").value=""; $("rLink").value=""; $("rPhoto").value="";
+      saveAll();
+    }
+
+    function addShopping(){
+      const title = $("shTitle").value.trim();
+      const link = $("shLink").value.trim();
+      if(!title && !link){ toast("Add title or link"); return; }
+      state.shopping.push({
+        title,
+        link,
+        photo: $("shPhoto").value.trim(),
+        note: $("shNote").value.trim()
+      });
+      $("shTitle").value=""; $("shLink").value=""; $("shPhoto").value=""; $("shNote").value="";
+      saveAll();
+    }
+
+    function addMusic(){
+      const song = $("mSong").value.trim();
+      const link = $("mLink").value.trim();
+      if(!song && !link){ toast("Add song or link"); return; }
+      state.playlist.push({
+        by: $("mBy").value.trim(),
+        song,
+        link,
+        comment: $("mComment").value.trim()
+      });
+      $("mBy").value=""; $("mSong").value=""; $("mLink").value=""; $("mComment").value="";
+      saveAll();
+    }
+
+    function addUniversal(){
+      const title = $("uTitle").value.trim();
+      const link = $("uLink").value.trim();
+      if(!title && !link){ toast("Add title or link"); return; }
+      state.universal.push({
+        cat: $("uCat").value,
+        title,
+        link,
+        photo: $("uPhoto").value.trim(),
+        note: $("uNote").value.trim()
+      });
+      $("uTitle").value=""; $("uLink").value=""; $("uPhoto").value=""; $("uNote").value="";
+      saveAll();
+    }
+
+    // --------- Init ----------
+    (function init(){
+      $("yr").textContent = new Date().getFullYear();
+      $("baseUrl").value = state.baseUrl || "";
+      $("baseLbl").textContent = state.baseUrl ? state.baseUrl : "Not set";
+      $("shareCode").value = state.shareCode || "";
+      $("shareCodeBadge").textContent = state.shareCode || "—";
+
+      const hash = (location.hash || "").replace("#","");
+      if(hash) openTab(hash);
+
+      loadAll();
+    })();
+  </script>
+</body>
+</html>
