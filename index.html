@@ -1,0 +1,1900 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LovN Wedding Planner</title>
+  <meta name="description" content="LovN Wedding Planner — a shared wedding hub for planners, couples, and the wedding party." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#0b1220;
+      --muted:#5a667a;
+      --card:#ffffff;
+      --stroke:rgba(11,18,32,.10);
+      --teal:#0ea5a4;
+      --teal2:#0b7285;
+      --gold:#d4af37;
+      --gold2:#f0d77a;
+      --shadow:0 18px 60px rgba(11,18,32,.10);
+      --shadow2:0 10px 30px rgba(11,18,32,.08);
+      --r:22px;
+      --r2:30px;
+      --max:1160px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 600px at 15% 10%, rgba(14,165,164,.10), transparent 65%),
+        radial-gradient(900px 500px at 90% 0%, rgba(212,175,55,.14), transparent 55%),
+        radial-gradient(900px 500px at 90% 90%, rgba(14,165,164,.08), transparent 55%),
+        url('assets/rose-border-bg.png');
+      background-size: auto, auto, auto, cover;
+      background-attachment: fixed;
+      background-position: center;
+      overflow-x:hidden;
+    }
+
+    /* Giant rose frame */
+    .rose-frame{position:fixed; inset:0; pointer-events:none; z-index:3;}
+    .rose-frame:before,
+    .rose-frame:after{
+      content:""; position:absolute; inset:-40px;
+      background:
+        radial-gradient(250px 250px at 6% 8%, rgba(255,255,255,.95), rgba(255,255,255,0) 70%),
+        radial-gradient(280px 280px at 95% 10%, rgba(255,255,255,.92), rgba(255,255,255,0) 72%),
+        radial-gradient(280px 280px at 6% 92%, rgba(255,255,255,.92), rgba(255,255,255,0) 72%),
+        radial-gradient(300px 300px at 95% 92%, rgba(255,255,255,.92), rgba(255,255,255,0) 72%),
+        conic-gradient(from 180deg at 50% 50%, rgba(212,175,55,.0), rgba(212,175,55,.15), rgba(14,165,164,.10), rgba(212,175,55,.12), rgba(14,165,164,.08), rgba(212,175,55,.0));
+      filter: blur(0.2px);
+      mix-blend-mode: screen;
+      opacity:.85;
+      mask:
+        linear-gradient(#000, #000) content-box,
+        linear-gradient(#000, #000);
+      -webkit-mask:
+        linear-gradient(#000, #000) content-box,
+        linear-gradient(#000, #000);
+      padding:28px;
+      border-radius:42px;
+    }
+
+    .rose-swirls{position:fixed; inset:0; pointer-events:none; z-index:4; opacity:.9;}
+    .rose-swirls .swirl{
+      position:absolute; inset:-160px;
+      background:
+        radial-gradient(1200px 700px at 20% 20%, rgba(14,165,164,.18), transparent 60%),
+        radial-gradient(1000px 600px at 80% 10%, rgba(212,175,55,.22), transparent 60%),
+        radial-gradient(900px 600px at 80% 90%, rgba(14,165,164,.12), transparent 60%),
+        radial-gradient(1200px 700px at 20% 90%, rgba(212,175,55,.14), transparent 60%);
+      filter: blur(18px);
+      animation: float 12s ease-in-out infinite;
+    }
+    @keyframes float{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(0,-14px,0) scale(1.01)}}
+
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px; position:relative; z-index:5;}
+
+    /* Top bar */
+    .top{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      padding:16px 18px;
+      border:1px solid var(--stroke);
+      border-radius:999px;
+      background:rgba(255,255,255,.82);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow2);
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+    }
+    .brand{display:flex; align-items:center; gap:12px; min-width: 240px;}
+    .mark{
+      width:44px; height:44px; border-radius:14px;
+      background:
+        radial-gradient(14px 14px at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,0)),
+        linear-gradient(135deg, rgba(14,165,164,.95), rgba(212,175,55,.95));
+      box-shadow: 0 18px 40px rgba(11,18,32,.18);
+      border: 1px solid rgba(255,255,255,.6);
+    }
+    .brand h1{
+      margin:0;
+      font-family: var(--serif);
+      font-size: 18px;
+      letter-spacing:.3px;
+      line-height:1.1;
+    }
+    .brand p{margin:2px 0 0; color:var(--muted); font-size:12px}
+
+    .nav{
+      display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end;
+    }
+    .pill{
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.9);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted);
+      cursor:pointer;
+      user-select:none;
+      transition:transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+    }
+    .pill:hover{transform:translateY(-1px); border-color: rgba(14,165,164,.35); box-shadow: 0 10px 24px rgba(11,18,32,.08)}
+    .pill.active{color:var(--ink); border-color: rgba(212,175,55,.55); box-shadow: 0 12px 30px rgba(212,175,55,.18)}
+
+    /* Hero */
+    .hero{
+      margin: 18px 0 18px;
+      border-radius: var(--r2);
+      border: 1px solid rgba(255,255,255,.6);
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .heroGrid{display:grid; grid-template-columns: 1.1fr .9fr; gap:0;}
+    .heroLeft{padding:34px 26px 26px; position:relative}
+    .title{
+      font-family: var(--serif);
+      font-size: 46px;
+      line-height: 1.02;
+      margin: 0 0 12px;
+      letter-spacing:.2px;
+    }
+    .title .gold{background: linear-gradient(90deg, var(--gold), var(--gold2)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .sub{
+      margin:0 0 18px;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 54ch;
+    }
+    .ctaRow{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+    .btn{
+      border:0;
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: .2px;
+      box-shadow: 0 14px 30px rgba(11,18,32,.10);
+      transition: transform .12s ease, filter .12s ease;
+      display:inline-flex; align-items:center; gap:10px;
+    }
+    .btn:hover{transform: translateY(-1px); filter:saturate(1.05)}
+    .btn.primary{background: linear-gradient(135deg, var(--teal), var(--gold)); color:#061018}
+    .btn.ghost{background: rgba(255,255,255,.92); border:1px solid rgba(11,18,32,.12); color: var(--ink)}
+    .chipRow{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid rgba(11,18,32,.10);
+      background: rgba(255,255,255,.9);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .dot{width:9px;height:9px;border-radius:50%;background: var(--teal)}
+    .dot.gold{background: var(--gold)}
+
+    .heroRight{position:relative; min-height: 380px;}
+    .heroRight img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.02) contrast(1.02)}
+    .heroFade{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.86), rgba(255,255,255,0) 55%),
+        radial-gradient(700px 380px at 30% 20%, rgba(14,165,164,.18), rgba(255,255,255,0) 65%),
+        radial-gradient(600px 340px at 70% 80%, rgba(212,175,55,.16), rgba(255,255,255,0) 60%);
+      pointer-events:none;
+    }
+
+    /* Layout */
+    .grid{display:grid; grid-template-columns: 320px 1fr; gap:16px; align-items:start;}
+
+    .side{
+      border-radius: var(--r);
+      border:1px solid rgba(255,255,255,.6);
+      background: rgba(255,255,255,.82);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .side .hdr{padding:16px 16px 12px; border-bottom: 1px solid rgba(11,18,32,.10)}
+    .side .hdr h3{margin:0; font-size:14px}
+    .side .hdr p{margin:6px 0 0; color:var(--muted); font-size:12px}
+    .side .body{padding:14px 16px 16px}
+
+    .kpi{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    .kpi .box{border:1px solid rgba(11,18,32,.10); border-radius: 16px; padding:12px; background:rgba(255,255,255,.92)}
+    .kpi .n{font-weight:900; font-size:20px; letter-spacing:.2px}
+    .kpi .l{font-size:12px; color:var(--muted)}
+
+    .main{
+      border-radius: var(--r);
+      border:1px solid rgba(255,255,255,.6);
+      background: rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; padding:12px; border-bottom:1px solid rgba(11,18,32,.10); background: rgba(255,255,255,.75)}
+    .tabBtn{border:1px solid rgba(11,18,32,.12); background:rgba(255,255,255,.92); padding:8px 10px; border-radius:999px; cursor:pointer; font-size:12px; color:var(--muted)}
+    .tabBtn.active{color:var(--ink); border-color: rgba(14,165,164,.38); box-shadow: 0 10px 24px rgba(14,165,164,.10)}
+
+    .panel{display:none; padding:18px}
+    .panel.active{display:block}
+
+    /* Components */
+    .sectionTitle{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin:0 0 12px}
+    .sectionTitle h2{margin:0; font-size:18px}
+    .sectionTitle small{color:var(--muted)}
+
+    .cards{display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:12px}
+    .card{
+      border:1px solid rgba(11,18,32,.10);
+      border-radius: 20px;
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 10px 26px rgba(11,18,32,.06);
+      overflow:hidden;
+    }
+    .card .ch{padding:14px 14px 0}
+    .card h3{margin:0 0 6px; font-size:14px}
+    .card p{margin:0 0 12px; color:var(--muted); font-size:12px; line-height:1.45}
+    .card .media{height:160px; background:#f6f7fb; border-top:1px solid rgba(11,18,32,.06)}
+    .card .media img{width:100%; height:100%; object-fit:cover; display:block}
+    .card .actions{padding:12px 14px 14px; display:flex; gap:10px; flex-wrap:wrap}
+
+    .mini{border:1px solid rgba(11,18,32,.10); background:rgba(255,255,255,.92); padding:9px 10px; border-radius:14px; font-size:12px; cursor:pointer; color:var(--ink)}
+
+    label{display:block; font-size:12px; color:var(--muted); margin:8px 0 6px}
+    input, select, textarea{
+      width:100%;
+      padding:11px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(11,18,32,.14);
+      background: rgba(255,255,255,.96);
+      color: var(--ink);
+      outline:none;
+    }
+    textarea{min-height: 110px; resize: vertical}
+    .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    .row3{display:grid; grid-template-columns: 1.2fr .8fr .8fr; gap:10px}
+    .rowAuto{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+    .list{display:grid; gap:10px; margin-top: 12px}
+    .item{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:10px;
+      align-items:start;
+      border:1px solid rgba(11,18,32,.10);
+      border-radius: 18px;
+      padding:12px;
+      background: rgba(255,255,255,.95);
+    }
+    .item .meta{color:var(--muted); font-size:12px}
+    .item .tools{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+
+    table{width:100%; border-collapse:collapse; overflow:hidden; border-radius: 16px; border:1px solid rgba(11,18,32,.10); background:rgba(255,255,255,.95)}
+    th,td{padding:10px 10px; border-bottom:1px solid rgba(11,18,32,.08); text-align:left; font-size:12px}
+    th{color:var(--muted); font-weight:800; background: rgba(14,165,164,.06)}
+    tr:last-child td{border-bottom:0}
+
+    .tag{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid rgba(11,18,32,.10);
+      background: rgba(255,255,255,.95);
+      padding: 8px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-size:12px;
+      color: var(--ink);
+    }
+    .tag:hover{border-color: rgba(212,175,55,.45)}
+
+    .toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); background:rgba(11,18,32,.9); color:#fff; padding:10px 12px; border-radius: 999px; font-size:12px; opacity:0; pointer-events:none; transition: opacity .18s ease; z-index: 20}
+    .toast.show{opacity:1}
+
+    .foot{color:rgba(11,18,32,.60); font-size:12px; text-align:center; margin-top: 14px}
+
+    @media (max-width: 980px){
+      .heroGrid{grid-template-columns: 1fr}
+      .heroRight{min-height: 280px}
+      .grid{grid-template-columns: 1fr}
+      .cards{grid-template-columns: 1fr}
+      .brand{min-width: unset}
+      .title{font-size: 40px}
+    }
+  </style>
+</head>
+<body>
+  <div class="rose-frame" aria-hidden="true"></div>
+  <div class="rose-swirls" aria-hidden="true"><div class="swirl"></div></div>
+
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h1>LovN Wedding Planner</h1>
+          <p>Shared hub for the couple • planner • wedding party</p>
+        </div>
+      </div>
+      <nav class="nav" id="quickNav">
+        <div class="pill" data-go="dashboard">Dashboard</div>
+        <div class="pill" data-go="gallery">Gallery</div>
+        <div class="pill" data-go="budget">Budget</div>
+        <div class="pill" data-go="contacts">Contacts</div>
+        <div class="pill" data-go="seating">Seating</div>
+        <div class="pill" data-go="playlist">Playlist</div>
+        <div class="pill" data-go="registry">Registry</div>
+        <div class="pill" data-go="menu">Menu</div>
+        <div class="pill" data-go="party">Wedding Party</div>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="heroGrid">
+        <div class="heroLeft">
+          <h2 class="title">Plan in style. <span class="gold">Share</span> with everyone.</h2>
+          <p class="sub">A bold, luxury wedding workspace with posts, photo sharing, seating chart, contacts + SMS reminders, registry, shopping links, music suggestions, catering ideas, budget tracking, and a master notes/to‑do board.</p>
+          <div class="ctaRow">
+            <button class="btn primary" id="btnShare"><span>🔗</span>Copy Share Link</button>
+            <button class="btn ghost" id="btnReset"><span>♻️</span>Reset Demo Data</button>
+            <button class="btn ghost" id="btnExport"><span>⬇️</span>Export JSON</button>
+          </div>
+          <div class="chipRow">
+            <div class="chip"><span class="dot"></span>White + Teal theme</div>
+            <div class="chip"><span class="dot gold"></span>Metallic gold accents</div>
+            <div class="chip"><span class="dot"></span>Local-save ready</div>
+          </div>
+        </div>
+        <div class="heroRight">
+          <img src="assets/couple-hero.png" alt="LovN Wedding hero couple" />
+          <div class="heroFade"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <aside class="side" id="dashboard">
+        <div class="hdr">
+          <h3>Wedding Snapshot</h3>
+          <p>Totals update as you add items across the site.</p>
+        </div>
+        <div class="body">
+          <div class="kpi">
+            <div class="box"><div class="n" id="kpiPhotos">0</div><div class="l">Gallery items</div></div>
+            <div class="box"><div class="n" id="kpiPosts">0</div><div class="l">Posts</div></div>
+            <div class="box"><div class="n" id="kpiContacts">0</div><div class="l">Contacts</div></div>
+            <div class="box"><div class="n" id="kpiBudget">$0</div><div class="l">Budget remaining</div></div>
+          </div>
+
+          <div style="height:12px"></div>
+          <div class="card" style="box-shadow:none">
+            <div class="ch">
+              <h3>Quick Add</h3>
+              <p>Add something fast without switching tabs.</p>
+            </div>
+            <div class="actions">
+              <button class="mini" data-quick="photo">➕ Photo</button>
+              <button class="mini" data-quick="post">✍️ Post</button>
+              <button class="mini" data-quick="contact">📇 Contact</button>
+              <button class="mini" data-quick="budget">💳 Budget</button>
+              <button class="mini" data-quick="todo">✅ To‑Do</button>
+            </div>
+          </div>
+
+          <p class="foot">Tip: share the link with your planner or wedding party for the same view.</p>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="tabs" id="tabs">
+          <button class="tabBtn active" data-tab="overview">Overview</button>
+          <button class="tabBtn" data-tab="gallery">Gallery</button>
+          <button class="tabBtn" data-tab="posts">Posts</button>
+          <button class="tabBtn" data-tab="seating">Seating Chart</button>
+          <button class="tabBtn" data-tab="contacts">Contacts + SMS</button>
+          <button class="tabBtn" data-tab="suggestions">Suggestions</button>
+          <button class="tabBtn" data-tab="registry">Registry</button>
+          <button class="tabBtn" data-tab="shopping">Shop Links</button>
+          <button class="tabBtn" data-tab="playlist">Playlist</button>
+          <button class="tabBtn" data-tab="menu">Menu</button>
+          <button class="tabBtn" data-tab="party">Wedding Party</button>
+          <button class="tabBtn" data-tab="budget">Budget</button>
+        </div>
+
+        <!-- OVERVIEW -->
+        <section class="panel active" id="panel-overview">
+          <div class="sectionTitle">
+            <h2>Feature Hub</h2>
+            <small>All features are themed + link-friendly.</small>
+          </div>
+
+          <div class="cards">
+            <div class="card">
+              <div class="ch">
+                <h3>Gallery + Share</h3>
+                <p>Add pictures (URLs) with captions and share a view-only link with your planner, clients, or wedding party.</p>
+              </div>
+              <div class="media"><img src="assets/whole-group.png" alt="Gallery preview" /></div>
+              <div class="actions"><button class="mini" data-go-tab="gallery">Open Gallery</button><button class="mini" id="btnShare2">Copy Share Link</button></div>
+            </div>
+
+            <div class="card">
+              <div class="ch">
+                <h3>Budget + Notes/To‑Do</h3>
+                <p>Track planned vs actual, mark paid, and keep master notes + to‑dos in the same place.</p>
+              </div>
+              <div class="media"><img src="assets/venue-interior.png" alt="Budget preview" /></div>
+              <div class="actions"><button class="mini" data-go-tab="budget">Open Budget</button><button class="mini" data-go-tab="overview" data-scroll="notes">Jump to Notes</button></div>
+            </div>
+
+            <div class="card">
+              <div class="ch">
+                <h3>Catering + Dessert Stand</h3>
+                <p>Save vendor links, photo links, and click suggestions for food + dessert choices.</p>
+              </div>
+              <div class="media"><img src="assets/catering-dessert.png" alt="Catering preview" /></div>
+              <div class="actions"><button class="mini" data-go-tab="menu">Open Menu</button><button class="mini" data-go-tab="registry">Open Registry</button></div>
+            </div>
+
+            <div class="card">
+              <div class="ch">
+                <h3>LovN Music</h3>
+                <p>Collect music suggestions with links + comments. Perfect for the DJ, ceremony, cocktail hour, and reception.</p>
+              </div>
+              <div class="media"><img src="assets/playlist-header.png" alt="Playlist preview" /></div>
+              <div class="actions"><button class="mini" data-go-tab="playlist">Open Playlist</button></div>
+            </div>
+          </div>
+
+          <div style="height:16px"></div>
+          <div class="sectionTitle" id="notes">
+            <h2>Master Notes + To‑Do</h2>
+            <small>Saved locally (and included in share/export).</small>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Overall Notes</label>
+              <textarea id="masterNotes" placeholder="Venue notes, vendor notes, color palette, deadlines…"></textarea>
+            </div>
+            <div>
+              <label>Add a To‑Do</label>
+              <div class="row">
+                <input id="todoText" placeholder="e.g., Confirm florist deposit" />
+                <button class="btn primary" style="padding:11px 12px" id="btnAddTodo">Add</button>
+              </div>
+              <div class="list" id="todoList"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- GALLERY -->
+        <section class="panel" id="panel-gallery">
+          <div class="sectionTitle">
+            <h2 id="gallery">Gallery</h2>
+            <small>Add image URLs + captions. Share link shows the same items.</small>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Image URL</label>
+              <input id="galUrl" placeholder="https://.../image.png" />
+            </div>
+            <div>
+              <label>Caption</label>
+              <input id="galCap" placeholder="Engagement shoot, venue inspo, dress ideas…" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Link (optional)</label>
+              <input id="galLink" placeholder="Pinterest board / vendor site / album link" />
+            </div>
+            <div>
+              <label>Tag (optional)</label>
+              <input id="galTag" placeholder="Venue • Decor • Dress • Party • Family" />
+            </div>
+          </div>
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddPhoto">➕ Add Photo</button>
+            <button class="btn ghost" id="btnSamplePhotos">✨ Add Sample Set</button>
+          </div>
+
+          <div class="list" id="galleryList"></div>
+        </section>
+
+        <!-- POSTS -->
+        <section class="panel" id="panel-posts">
+          <div class="sectionTitle">
+            <h2>Posts</h2>
+            <small>Updates for planner + wedding party (with links + photo links).</small>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Title</label>
+              <input id="postTitle" placeholder="Florist confirmed ✅" />
+            </div>
+            <div>
+              <label>Photo URL (optional)</label>
+              <input id="postImg" placeholder="https://.../photo.png" />
+            </div>
+          </div>
+          <label>Post</label>
+          <textarea id="postBody" placeholder="Share updates, timelines, reminders, links…"></textarea>
+          <div class="row">
+            <div>
+              <label>Link (optional)</label>
+              <input id="postLink" placeholder="Vendor page / doc / Pinterest / Drive link" />
+            </div>
+            <div>
+              <label>Category</label>
+              <select id="postCat">
+                <option>General</option>
+                <option>Timeline</option>
+                <option>Vendors</option>
+                <option>Decor</option>
+                <option>Wardrobe</option>
+                <option>Music</option>
+                <option>Food</option>
+              </select>
+            </div>
+          </div>
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddPost">✍️ Publish Post</button>
+          </div>
+          <div class="list" id="postList"></div>
+        </section>
+
+        <!-- SEATING -->
+        <section class="panel" id="panel-seating">
+          <div class="sectionTitle">
+            <h2 id="seating">Seating Chart</h2>
+            <small>Create tables and assign guests.</small>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>New Table Name</label>
+              <input id="tableName" placeholder="Table 1 • Sweetheart • Family A" />
+            </div>
+            <div>
+              <label>Seats</label>
+              <input id="tableSeats" type="number" min="1" value="8" />
+            </div>
+          </div>
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddTable">➕ Add Table</button>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <div class="row">
+            <div>
+              <label>Guest Name</label>
+              <input id="guestName" placeholder="Guest full name" />
+            </div>
+            <div>
+              <label>Assign to Table</label>
+              <select id="guestTable"></select>
+            </div>
+          </div>
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddGuest">➕ Add Guest</button>
+          </div>
+
+          <div style="height:14px"></div>
+          <div class="list" id="tableList"></div>
+        </section>
+
+        <!-- CONTACTS -->
+        <section class="panel" id="panel-contacts">
+          <div class="sectionTitle">
+            <h2 id="contacts">Contacts + SMS Reminders</h2>
+            <small>Add contacts and tap “Text” to open the phone messenger with a prefilled reminder.</small>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Name</label>
+              <input id="cName" placeholder="Vendor / family / wedding party" />
+            </div>
+            <div>
+              <label>Role</label>
+              <input id="cRole" placeholder="Planner • DJ • Bridesmaid • Venue" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Phone</label>
+              <input id="cPhone" placeholder="+1 555 123 4567" />
+            </div>
+            <div>
+              <label>Email (optional)</label>
+              <input id="cEmail" placeholder="name@email.com" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Website / Link (optional)</label>
+              <input id="cLink" placeholder="Vendor site / IG / doc link" />
+            </div>
+            <div>
+              <label>Notes</label>
+              <input id="cNotes" placeholder="Deposit date, pricing, availability…" />
+            </div>
+          </div>
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddContact">📇 Add Contact</button>
+          </div>
+
+          <div class="list" id="contactList"></div>
+        </section>
+
+        <!-- SUGGESTIONS -->
+        <section class="panel" id="panel-suggestions">
+          <div class="sectionTitle">
+            <h2>Wedding Suggestions</h2>
+            <small>Let others submit ideas with links + photo links.</small>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>From</label>
+              <input id="sFrom" placeholder="Name" />
+            </div>
+            <div>
+              <label>Topic</label>
+              <select id="sTopic">
+                <option>Decor</option>
+                <option>Music</option>
+                <option>Food</option>
+                <option>Venue</option>
+                <option>Outfits</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <label>Suggestion</label>
+          <textarea id="sText" placeholder="Share the idea…"></textarea>
+          <div class="row">
+            <div>
+              <label>Link (optional)</label>
+              <input id="sLink" placeholder="Vendor / Pinterest / TikTok / website" />
+            </div>
+            <div>
+              <label>Photo URL (optional)</label>
+              <input id="sImg" placeholder="https://..." />
+            </div>
+          </div>
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddSuggestion">💡 Add Suggestion</button>
+          </div>
+          <div class="list" id="suggestList"></div>
+        </section>
+
+        <!-- REGISTRY -->
+        <section class="panel" id="panel-registry">
+          <div class="sectionTitle">
+            <h2 id="registry">Wedding Registry</h2>
+            <small>Add items and link where to buy.</small>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Item</label>
+              <input id="rItem" placeholder="KitchenAid mixer" />
+            </div>
+            <div>
+              <label>Link</label>
+              <input id="rLink" placeholder="https://..." />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Priority</label>
+              <select id="rPri"><option>Nice to have</option><option>Must have</option><option>Dream</option></select>
+            </div>
+            <div>
+              <label>Notes</label>
+              <input id="rNotes" placeholder="Color, size, model…" />
+            </div>
+          </div>
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddRegistry">🎁 Add Registry Item</button>
+          </div>
+          <div class="list" id="registryList"></div>
+        </section>
+
+        <!-- SHOPPING -->
+        <section class="panel" id="panel-shopping">
+          <div class="sectionTitle">
+            <h2>Shop Links (Dresses + Wedding Items)</h2>
+            <small>Save sites for dresses, rings, decor, favors, etc.</small>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Store / Site</label>
+              <input id="shopName" placeholder="Etsy • David's Bridal • Amazon" />
+            </div>
+            <div>
+              <label>Link</label>
+              <input id="shopLink" placeholder="https://..." />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Category</label>
+              <select id="shopCat"><option>Dresses</option><option>Suits</option><option>Rings</option><option>Decor</option><option>Shoes</option><option>Gifts</option><option>Other</option></select>
+            </div>
+            <div>
+              <label>Photo URL (optional)</label>
+              <input id="shopImg" placeholder="https://..." />
+            </div>
+          </div>
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddShop">🛍️ Add Shop Link</button>
+          </div>
+          <div class="list" id="shopList"></div>
+        </section>
+
+        <!-- PLAYLIST -->
+        <section class="panel" id="panel-playlist">
+          <div class="sectionTitle">
+            <h2 id="playlist">LovN Music</h2>
+            <small>Add songs with links + comments. Great for DJ handoff.</small>
+          </div>
+
+          <div class="card" style="margin-bottom:12px">
+            <div class="media" style="height:220px"><img src="assets/playlist-header.png" alt="LovN Music header" /></div>
+            <div class="ch" style="padding:12px 14px 0">
+              <h3 style="margin:0">LovN Music</h3>
+              <p>Spotify / Apple Music / YouTube links work great.</p>
+            </div>
+            <div class="actions" style="padding-top:10px">
+              <div class="tag" data-set-phase="Ceremony">🎻 Ceremony</div>
+              <div class="tag" data-set-phase="Cocktail">🍸 Cocktail Hour</div>
+              <div class="tag" data-set-phase="Reception">💃 Reception</div>
+              <div class="tag" data-set-phase="Do Not Play">🚫 Do Not Play</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Song / Title</label>
+              <input id="mTitle" placeholder="Song name" />
+            </div>
+            <div>
+              <label>Artist</label>
+              <input id="mArtist" placeholder="Artist" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Link</label>
+              <input id="mLink" placeholder="https://open.spotify.com/..." />
+            </div>
+            <div>
+              <label>Moment</label>
+              <select id="mPhase"><option>Ceremony</option><option>Cocktail</option><option>Reception</option><option>Do Not Play</option></select>
+            </div>
+          </div>
+          <label>Comment</label>
+          <input id="mNote" placeholder="Why this song? First dance? Entrance?" />
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddMusic">🎵 Add to Playlist</button>
+          </div>
+
+          <div class="list" id="musicList"></div>
+        </section>
+
+        <!-- MENU -->
+        <section class="panel" id="panel-menu">
+          <div class="sectionTitle">
+            <h2 id="menu">Catering Menu</h2>
+            <small>Click suggestions to add them, or add custom items. Save vendor links + photos.</small>
+          </div>
+
+          <div class="card" style="margin-bottom:12px">
+            <div class="media" style="height:220px"><img src="assets/catering-dessert.png" alt="Catering menu" /></div>
+            <div class="actions">
+              <div class="tag" data-pick="Herb Roasted Chicken">🍗 Herb Roasted Chicken</div>
+              <div class="tag" data-pick="Salmon w/ Lemon Butter">🐟 Salmon w/ Lemon Butter</div>
+              <div class="tag" data-pick="Braised Short Ribs">🥩 Braised Short Ribs</div>
+              <div class="tag" data-pick="Vegan Stuffed Peppers">🥗 Vegan Stuffed Peppers</div>
+              <div class="tag" data-pick="Mac & Cheese Bar">🧀 Mac & Cheese Bar</div>
+              <div class="tag" data-pick="Charcuterie + Fruit">🍇 Charcuterie + Fruit</div>
+              <div class="tag" data-pick="Mini Cupcake Tower">🧁 Mini Cupcake Tower</div>
+              <div class="tag" data-pick="Chocolate Strawberries">🍓 Chocolate Strawberries</div>
+              <div class="tag" data-pick="Champagne Toast">🥂 Champagne Toast</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Vendor / Caterer</label>
+              <input id="menuVendor" placeholder="Company name" />
+            </div>
+            <div>
+              <label>Vendor Link</label>
+              <input id="menuLink" placeholder="https://..." />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Photo URL (optional)</label>
+              <input id="menuImg" placeholder="https://..." />
+            </div>
+            <div>
+              <label>Type</label>
+              <select id="menuType"><option>Entree</option><option>Side</option><option>Dessert</option><option>Drink</option><option>Appetizer</option></select>
+            </div>
+          </div>
+          <label>Item</label>
+          <input id="menuItem" placeholder="Click a suggestion above or type your own…" />
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddMenu">🍽️ Add Menu Item</button>
+          </div>
+
+          <div class="list" id="menuList"></div>
+        </section>
+
+        <!-- WEDDING PARTY -->
+        <section class="panel" id="panel-party">
+          <div class="sectionTitle">
+            <h2 id="party">Wedding Party</h2>
+            <small>Add names + roles + photos so everyone can view the lineup.</small>
+          </div>
+
+          <div class="cards" style="grid-template-columns: 1fr 1fr">
+            <div class="card">
+              <div class="media" style="height:200px"><img src="assets/bridal-party.png" alt="Bridal party" /></div>
+              <div class="ch">
+                <h3>Bridal Party</h3>
+                <p>Use this section to share dress colors, call times, and group photos.</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="media" style="height:200px"><img src="assets/family-moment.png" alt="Family moment" /></div>
+              <div class="ch">
+                <h3>Family + Special Moments</h3>
+                <p>Great for parents, grandparents, officiant, and special roles.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="row">
+            <div>
+              <label>Name</label>
+              <input id="pName" placeholder="Full name" />
+            </div>
+            <div>
+              <label>Role</label>
+              <select id="pRole">
+                <option>Bride</option><option>Groom</option><option>Maid of Honor</option><option>Best Man</option><option>Bridesmaid</option><option>Groomsman</option><option>Flower Girl</option><option>Ring Bearer</option><option>Officiant</option><option>Parent</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Photo URL (optional)</label>
+              <input id="pImg" placeholder="https://..." />
+            </div>
+            <div>
+              <label>Link (optional)</label>
+              <input id="pLink" placeholder="Instagram / bio / notes link" />
+            </div>
+          </div>
+          <label>Notes</label>
+          <input id="pNotes" placeholder="Outfit, call time, speech, walking order…" />
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddParty">👥 Add Person</button>
+          </div>
+
+          <div class="list" id="partyList"></div>
+        </section>
+
+        <!-- BUDGET -->
+        <section class="panel" id="panel-budget">
+          <div class="sectionTitle">
+            <h2 id="budget">Budget Tracker</h2>
+            <small>Planned vs Actual + paid status. Totals update on the dashboard.</small>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Total Budget</label>
+              <input id="bTotal" type="number" min="0" placeholder="25000" />
+            </div>
+            <div>
+              <label>Currency</label>
+              <select id="bCur"><option>$</option><option>€</option><option>£</option></select>
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="row3">
+            <div>
+              <label>Category</label>
+              <select id="bCat"><option>Venue</option><option>Catering</option><option>Decor</option><option>Photography</option><option>Music/DJ</option><option>Wardrobe</option><option>Hair/Makeup</option><option>Rings</option><option>Gifts</option><option>Other</option></select>
+            </div>
+            <div>
+              <label>Planned</label>
+              <input id="bPlan" type="number" min="0" placeholder="1500" />
+            </div>
+            <div>
+              <label>Actual</label>
+              <input id="bAct" type="number" min="0" placeholder="1400" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Vendor / Link (optional)</label>
+              <input id="bLink" placeholder="https://..." />
+            </div>
+            <div>
+              <label>Paid?</label>
+              <select id="bPaid"><option>No</option><option>Yes</option></select>
+            </div>
+          </div>
+          <div class="rowAuto" style="margin-top:10px">
+            <button class="btn primary" id="btnAddBudget">💳 Add Line Item</button>
+          </div>
+
+          <div style="height:12px"></div>
+          <div class="row">
+            <div class="card" style="padding:12px">
+              <div class="sectionTitle" style="margin:0 0 8px"><h2 style="font-size:14px;margin:0">Totals</h2><small id="budgetSummary">—</small></div>
+              <table>
+                <thead><tr><th>Category</th><th>Planned</th><th>Actual</th><th>Paid</th><th></th></tr></thead>
+                <tbody id="budgetTable"></tbody>
+              </table>
+            </div>
+            <div class="card" style="padding:12px">
+              <div class="sectionTitle" style="margin:0 0 8px"><h2 style="font-size:14px;margin:0">Quick Vendor Links</h2><small>Clickable</small></div>
+              <div class="list" id="budgetLinks"></div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </section>
+  </div>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script>
+    const STORAGE_KEY = 'lovn_wedding_v1';
+
+    const defaultState = () => ({
+      meta: { currency:'$', totalBudget: 25000 },
+      notes: '',
+      todos: [
+        { id: cryptoId(), text:'Confirm venue deposit', done:false },
+        { id: cryptoId(), text:'Send wedding party attire details', done:true }
+      ],
+      gallery: [
+        { id: cryptoId(), url:'assets/couple-closeup.png', caption:'Couple close-up (Pixar-style)', link:'', tag:'Couple' },
+        { id: cryptoId(), url:'assets/venue-interior.png', caption:'Venue interior inspo', link:'', tag:'Venue' },
+        { id: cryptoId(), url:'assets/bridal-party.png', caption:'Bridal party photo', link:'', tag:'Party' },
+        { id: cryptoId(), url:'assets/catering-dessert.png', caption:'Catering + dessert stand', link:'', tag:'Food' },
+        { id: cryptoId(), url:'assets/whole-group.png', caption:'Whole group moment', link:'', tag:'Family' },
+      ],
+      posts: [
+        { id: cryptoId(), title:'Welcome to LovN Wedding Planner', body:'Use this hub to share updates, links, and photos with your planner + wedding party.', img:'', link:'', cat:'General', ts: Date.now() }
+      ],
+      contacts: [
+        { id: cryptoId(), name:'Venue Coordinator', role:'Venue', phone:'', email:'', link:'', notes:'' },
+      ],
+      suggestions: [],
+      registry: [],
+      shopping: [],
+      music: [],
+      menu: [],
+      seating: { tables: [{ id: cryptoId(), name:'Table 1', seats:8, guests:[] }] },
+      party: [] ,
+      budget: [
+        { id: cryptoId(), cat:'Venue', planned:6000, actual:6000, paid:true, link:'' },
+        { id: cryptoId(), cat:'Catering', planned:4500, actual:0, paid:false, link:'' }
+      ]
+    });
+
+    function cryptoId(){
+      // stable enough for front-end demo
+      return Math.random().toString(16).slice(2) + Date.now().toString(16);
+    }
+
+    function loadState(){
+      // Allow shareable URL state via hash: #state=<base64>
+      const hash = location.hash || '';
+      const m = hash.match(/state=([^&]+)/);
+      if(m){
+        try{
+          const json = decodeURIComponent(escape(atob(m[1])));
+          const parsed = JSON.parse(json);
+          // Persist for this browser too
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+          return parsed;
+        }catch(e){ /* ignore */ }
+      }
+
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return defaultState();
+      try{ return JSON.parse(raw); }catch{ return defaultState(); }
+    }
+
+    function saveState(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      refreshKPIs();
+    }
+
+    function money(n){
+      const cur = state?.meta?.currency || '$';
+      const v = Number(n||0);
+      return cur + v.toLocaleString(undefined, {maximumFractionDigits:0});
+    }
+
+    function toast(msg='Done'){
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'), 1400);
+    }
+
+    let state = loadState();
+
+    // Tabs
+    const tabBtns = [...document.querySelectorAll('.tabBtn')];
+    const panels = [...document.querySelectorAll('.panel')];
+
+    function openTab(name){
+      tabBtns.forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+      panels.forEach(p=>p.classList.toggle('active', p.id===`panel-${name}`));
+      // highlight quick nav pill
+      document.querySelectorAll('#quickNav .pill').forEach(p=>p.classList.toggle('active', (p.dataset.go||'').toLowerCase()===name.toLowerCase()));
+      window.scrollTo({top: 0, behavior:'smooth'});
+    }
+
+    tabBtns.forEach(b=>b.addEventListener('click', ()=>openTab(b.dataset.tab)));
+
+    // quick nav
+    document.getElementById('quickNav').addEventListener('click', (e)=>{
+      const pill = e.target.closest('.pill');
+      if(!pill) return;
+      const go = pill.dataset.go;
+      if(!go) return;
+      openTab(go);
+    });
+
+    // overview card buttons
+    document.body.addEventListener('click', (e)=>{
+      const btn = e.target.closest('[data-go-tab]');
+      if(btn){
+        openTab(btn.dataset.goTab);
+        if(btn.dataset.scroll){
+          setTimeout(()=>document.getElementById(btn.dataset.scroll)?.scrollIntoView({behavior:'smooth', block:'start'}), 250);
+        }
+      }
+    });
+
+    // Quick add
+    document.querySelectorAll('[data-quick]').forEach(b=>b.addEventListener('click', ()=>{
+      const q = b.dataset.quick;
+      const map = { photo:'gallery', post:'posts', contact:'contacts', budget:'budget', todo:'overview' };
+      openTab(map[q]||'overview');
+      if(q==='todo') document.getElementById('todoText').focus();
+      if(q==='photo') document.getElementById('galUrl').focus();
+      if(q==='post') document.getElementById('postTitle').focus();
+      if(q==='contact') document.getElementById('cName').focus();
+      if(q==='budget') document.getElementById('bPlan').focus();
+    }));
+
+    // Share link
+    function buildShareUrl(){
+      const json = JSON.stringify(state);
+      const b64 = btoa(unescape(encodeURIComponent(json)));
+      const url = `${location.origin}${location.pathname}#state=${b64}`;
+      return url;
+    }
+
+    async function copyShare(){
+      const url = buildShareUrl();
+      try{ await navigator.clipboard.writeText(url); toast('Share link copied'); }
+      catch{ toast('Copy failed — browser blocked'); }
+    }
+
+    document.getElementById('btnShare').addEventListener('click', copyShare);
+    document.getElementById('btnShare2').addEventListener('click', copyShare);
+
+    // Export JSON
+    document.getElementById('btnExport').addEventListener('click', ()=>{
+      const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'lovn-wedding-data.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast('Exported');
+    });
+
+    // Reset
+    document.getElementById('btnReset').addEventListener('click', ()=>{
+      state = defaultState();
+      saveState();
+      renderAll();
+      toast('Reset');
+    });
+
+    // Notes + Todos
+    const masterNotes = document.getElementById('masterNotes');
+    masterNotes.value = state.notes || '';
+    masterNotes.addEventListener('input', ()=>{ state.notes = masterNotes.value; saveState(); });
+
+    document.getElementById('btnAddTodo').addEventListener('click', ()=>{
+      const t = document.getElementById('todoText');
+      const text = (t.value||'').trim();
+      if(!text) return;
+      state.todos.unshift({ id: cryptoId(), text, done:false });
+      t.value='';
+      saveState();
+      renderTodos();
+      toast('Added');
+    });
+
+    function renderTodos(){
+      const el = document.getElementById('todoList');
+      el.innerHTML='';
+      if(!state.todos.length){
+        el.innerHTML = `<div class="item"><div><b>No to-dos yet</b><div class="meta">Add one to keep everything on track.</div></div></div>`;
+        return;
+      }
+      state.todos.forEach(td=>{
+        const div = document.createElement('div');
+        div.className='item';
+        div.innerHTML = `
+          <div>
+            <div style="display:flex; gap:10px; align-items:flex-start">
+              <input type="checkbox" ${td.done?'checked':''} data-td-check="${td.id}" style="width:18px;height:18px;margin-top:2px" />
+              <div>
+                <b style="text-decoration:${td.done?'line-through':'none'}">${escapeHtml(td.text)}</b>
+                <div class="meta">Master to‑do</div>
+              </div>
+            </div>
+          </div>
+          <div class="tools">
+            <button class="mini" data-td-del="${td.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    document.getElementById('todoList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-td-del]');
+      if(del){
+        state.todos = state.todos.filter(t=>t.id!==del.dataset.tdDel);
+        saveState();
+        renderTodos();
+        toast('Deleted');
+      }
+    });
+    document.getElementById('todoList').addEventListener('change', (e)=>{
+      const chk = e.target.closest('[data-td-check]');
+      if(chk){
+        const id = chk.dataset.tdCheck;
+        const item = state.todos.find(t=>t.id===id);
+        if(item){ item.done = chk.checked; saveState(); renderTodos(); }
+      }
+    });
+
+    // Gallery
+    document.getElementById('btnAddPhoto').addEventListener('click', ()=>{
+      const url = val('galUrl');
+      const caption = val('galCap');
+      const link = val('galLink');
+      const tag = val('galTag');
+      if(!url) return;
+      state.gallery.unshift({ id: cryptoId(), url, caption, link, tag });
+      setVals(['galUrl','galCap','galLink','galTag'], '');
+      saveState();
+      renderGallery();
+      toast('Added');
+    });
+
+    document.getElementById('btnSamplePhotos').addEventListener('click', ()=>{
+      const sample = [
+        { url:'assets/extra-1.png', caption:'Extra gallery shot', link:'', tag:'Inspo' },
+        { url:'assets/couple-hero.png', caption:'Hero couple', link:'', tag:'Couple' }
+      ];
+      sample.forEach(s=>state.gallery.unshift({ id: cryptoId(), ...s }));
+      saveState();
+      renderGallery();
+      toast('Sample added');
+    });
+
+    function renderGallery(){
+      const el = document.getElementById('galleryList');
+      el.innerHTML='';
+      state.gallery.forEach(g=>{
+        const div = document.createElement('div');
+        div.className='item';
+        const linkHtml = g.link ? `<a class="mini" href="${escapeAttr(g.link)}" target="_blank" rel="noreferrer">Open Link</a>` : '';
+        const tagHtml = g.tag ? `<span class="chip" style="margin-top:8px"><span class="dot"></span>${escapeHtml(g.tag)}</span>` : '';
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(g.caption || 'Gallery photo')}</b>
+            <div class="meta">${escapeHtml(g.url)}</div>
+            ${tagHtml}
+            <div style="height:10px"></div>
+            <div class="card" style="box-shadow:none;border-radius:18px;overflow:hidden">
+              <div class="media" style="height:240px"><img src="${escapeAttr(g.url)}" alt="${escapeAttr(g.caption||'Photo')}" onerror="this.style.display='none'" /></div>
+            </div>
+          </div>
+          <div class="tools">
+            ${linkHtml}
+            <button class="mini" data-gal-del="${g.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+      document.getElementById('kpiPhotos').textContent = state.gallery.length;
+    }
+
+    document.getElementById('galleryList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-gal-del]');
+      if(!del) return;
+      state.gallery = state.gallery.filter(x=>x.id!==del.dataset.galDel);
+      saveState();
+      renderGallery();
+      toast('Deleted');
+    });
+
+    // Posts
+    document.getElementById('btnAddPost').addEventListener('click', ()=>{
+      const title = val('postTitle');
+      const body = (document.getElementById('postBody').value||'').trim();
+      const img = val('postImg');
+      const link = val('postLink');
+      const cat = document.getElementById('postCat').value;
+      if(!title && !body) return;
+      state.posts.unshift({ id: cryptoId(), title: title||'(Untitled)', body, img, link, cat, ts: Date.now() });
+      setVals(['postTitle','postImg','postLink'], '');
+      document.getElementById('postBody').value='';
+      saveState();
+      renderPosts();
+      toast('Published');
+    });
+
+    function renderPosts(){
+      const el = document.getElementById('postList');
+      el.innerHTML='';
+      state.posts.forEach(p=>{
+        const div = document.createElement('div');
+        div.className='item';
+        const when = new Date(p.ts).toLocaleString();
+        const imgHtml = p.img ? `<div class="card" style="box-shadow:none;border-radius:18px;overflow:hidden;margin-top:10px"><div class="media" style="height:240px"><img src="${escapeAttr(p.img)}" alt="post" onerror="this.style.display='none'" /></div></div>` : '';
+        const linkHtml = p.link ? `<a class="mini" href="${escapeAttr(p.link)}" target="_blank" rel="noreferrer">Open Link</a>` : '';
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(p.title)}</b>
+            <div class="meta">${escapeHtml(p.cat)} • ${escapeHtml(when)}</div>
+            <div style="height:8px"></div>
+            <div>${escapeHtml(p.body||'')}</div>
+            ${imgHtml}
+          </div>
+          <div class="tools">
+            ${linkHtml}
+            <button class="mini" data-post-del="${p.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+      document.getElementById('kpiPosts').textContent = state.posts.length;
+    }
+
+    document.getElementById('postList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-post-del]');
+      if(!del) return;
+      state.posts = state.posts.filter(x=>x.id!==del.dataset.postDel);
+      saveState();
+      renderPosts();
+      toast('Deleted');
+    });
+
+    // Seating
+    function refreshTablesDropdown(){
+      const sel = document.getElementById('guestTable');
+      sel.innerHTML='';
+      state.seating.tables.forEach(t=>{
+        const o = document.createElement('option');
+        o.value = t.id;
+        o.textContent = `${t.name} (${t.guests.length}/${t.seats})`;
+        sel.appendChild(o);
+      });
+    }
+
+    document.getElementById('btnAddTable').addEventListener('click', ()=>{
+      const name = val('tableName') || `Table ${state.seating.tables.length+1}`;
+      const seats = Number(document.getElementById('tableSeats').value||8);
+      state.seating.tables.push({ id: cryptoId(), name, seats, guests:[] });
+      setVals(['tableName'], '');
+      saveState();
+      renderSeating();
+      toast('Table added');
+    });
+
+    document.getElementById('btnAddGuest').addEventListener('click', ()=>{
+      const name = val('guestName');
+      const tableId = document.getElementById('guestTable').value;
+      if(!name || !tableId) return;
+      const t = state.seating.tables.find(x=>x.id===tableId);
+      if(!t) return;
+      if(t.guests.length >= t.seats){ toast('Table is full'); return; }
+      t.guests.push({ id: cryptoId(), name });
+      setVals(['guestName'], '');
+      saveState();
+      renderSeating();
+      toast('Guest added');
+    });
+
+    function renderSeating(){
+      refreshTablesDropdown();
+      const el = document.getElementById('tableList');
+      el.innerHTML='';
+      state.seating.tables.forEach(t=>{
+        const div = document.createElement('div');
+        div.className='item';
+        const spots = `${t.guests.length}/${t.seats}`;
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(t.name)}</b>
+            <div class="meta">Seats: ${escapeHtml(String(t.seats))} • Filled: ${escapeHtml(spots)}</div>
+            <div style="height:10px"></div>
+            <table>
+              <thead><tr><th>Guest</th><th style="width:120px">Actions</th></tr></thead>
+              <tbody>
+                ${t.guests.map(g=>`<tr><td>${escapeHtml(g.name)}</td><td><button class="mini" data-guest-del="${g.id}" data-table="${t.id}">Remove</button></td></tr>`).join('') || `<tr><td colspan="2" class="meta">No guests yet</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+          <div class="tools">
+            <button class="mini" data-table-del="${t.id}">Delete Table</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    document.getElementById('tableList').addEventListener('click', (e)=>{
+      const gdel = e.target.closest('[data-guest-del]');
+      if(gdel){
+        const tid = gdel.dataset.table;
+        const t = state.seating.tables.find(x=>x.id===tid);
+        if(t){
+          t.guests = t.guests.filter(g=>g.id!==gdel.dataset.guestDel);
+          saveState();
+          renderSeating();
+          toast('Removed');
+        }
+        return;
+      }
+      const tdel = e.target.closest('[data-table-del]');
+      if(tdel){
+        state.seating.tables = state.seating.tables.filter(t=>t.id!==tdel.dataset.tableDel);
+        saveState();
+        renderSeating();
+        toast('Deleted');
+      }
+    });
+
+    // Contacts
+    document.getElementById('btnAddContact').addEventListener('click', ()=>{
+      const name = val('cName');
+      if(!name) return;
+      const role = val('cRole');
+      const phone = val('cPhone');
+      const email = val('cEmail');
+      const link = val('cLink');
+      const notes = val('cNotes');
+      state.contacts.unshift({ id: cryptoId(), name, role, phone, email, link, notes });
+      setVals(['cName','cRole','cPhone','cEmail','cLink','cNotes'], '');
+      saveState();
+      renderContacts();
+      toast('Added');
+    });
+
+    function smsHref(phone, msg){
+      const p = (phone||'').replace(/\s+/g,'');
+      const body = encodeURIComponent(msg||'Quick wedding reminder from LovN Wedding Planner');
+      // iOS uses &body=, Android uses ?body=. We include both safely via ?body=.
+      return `sms:${p}?&body=${body}`;
+    }
+
+    function renderContacts(){
+      const el = document.getElementById('contactList');
+      el.innerHTML='';
+      state.contacts.forEach(c=>{
+        const div = document.createElement('div');
+        div.className='item';
+        const linkHtml = c.link ? `<a class="mini" href="${escapeAttr(c.link)}" target="_blank" rel="noreferrer">Open Link</a>` : '';
+        const emailHtml = c.email ? `<a class="mini" href="mailto:${escapeAttr(c.email)}">Email</a>` : '';
+        const textHtml = c.phone ? `<a class="mini" href="${smsHref(c.phone, `Hi ${c.name}, quick wedding reminder: `)}">Text</a>` : '';
+        const callHtml = c.phone ? `<a class="mini" href="tel:${escapeAttr(c.phone)}">Call</a>` : '';
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(c.name)}</b>
+            <div class="meta">${escapeHtml(c.role||'Contact')} • ${escapeHtml(c.phone||'')} ${c.email?`• ${escapeHtml(c.email)}`:''}</div>
+            ${c.notes?`<div style="height:8px"></div><div>${escapeHtml(c.notes)}</div>`:''}
+          </div>
+          <div class="tools">
+            ${textHtml}
+            ${callHtml}
+            ${emailHtml}
+            ${linkHtml}
+            <button class="mini" data-contact-del="${c.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+      document.getElementById('kpiContacts').textContent = state.contacts.length;
+    }
+
+    document.getElementById('contactList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-contact-del]');
+      if(!del) return;
+      state.contacts = state.contacts.filter(x=>x.id!==del.dataset.contactDel);
+      saveState();
+      renderContacts();
+      toast('Deleted');
+    });
+
+    // Suggestions
+    document.getElementById('btnAddSuggestion').addEventListener('click', ()=>{
+      const from = val('sFrom') || 'Anonymous';
+      const topic = document.getElementById('sTopic').value;
+      const text = (document.getElementById('sText').value||'').trim();
+      const link = val('sLink');
+      const img = val('sImg');
+      if(!text) return;
+      state.suggestions.unshift({ id: cryptoId(), from, topic, text, link, img, ts: Date.now() });
+      setVals(['sFrom','sLink','sImg'], '');
+      document.getElementById('sText').value='';
+      saveState();
+      renderSuggestions();
+      toast('Added');
+    });
+
+    function renderSuggestions(){
+      const el = document.getElementById('suggestList');
+      el.innerHTML='';
+      state.suggestions.forEach(s=>{
+        const div = document.createElement('div');
+        div.className='item';
+        const when = new Date(s.ts).toLocaleString();
+        const linkHtml = s.link ? `<a class="mini" href="${escapeAttr(s.link)}" target="_blank" rel="noreferrer">Open Link</a>` : '';
+        const imgHtml = s.img ? `<div class="card" style="box-shadow:none;border-radius:18px;overflow:hidden;margin-top:10px"><div class="media" style="height:220px"><img src="${escapeAttr(s.img)}" alt="suggestion" onerror="this.style.display='none'" /></div></div>` : '';
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(s.topic)} — ${escapeHtml(s.from)}</b>
+            <div class="meta">${escapeHtml(when)}</div>
+            <div style="height:8px"></div>
+            <div>${escapeHtml(s.text)}</div>
+            ${imgHtml}
+          </div>
+          <div class="tools">
+            ${linkHtml}
+            <button class="mini" data-sug-del="${s.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    document.getElementById('suggestList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-sug-del]');
+      if(!del) return;
+      state.suggestions = state.suggestions.filter(x=>x.id!==del.dataset.sugDel);
+      saveState();
+      renderSuggestions();
+      toast('Deleted');
+    });
+
+    // Registry
+    document.getElementById('btnAddRegistry').addEventListener('click', ()=>{
+      const item = val('rItem');
+      const link = val('rLink');
+      const pri = document.getElementById('rPri').value;
+      const notes = val('rNotes');
+      if(!item) return;
+      state.registry.unshift({ id: cryptoId(), item, link, pri, notes });
+      setVals(['rItem','rLink','rNotes'], '');
+      saveState();
+      renderRegistry();
+      toast('Added');
+    });
+
+    function renderRegistry(){
+      const el = document.getElementById('registryList');
+      el.innerHTML='';
+      state.registry.forEach(r=>{
+        const div = document.createElement('div');
+        div.className='item';
+        const linkHtml = r.link ? `<a class="mini" href="${escapeAttr(r.link)}" target="_blank" rel="noreferrer">Buy / View</a>` : '';
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(r.item)}</b>
+            <div class="meta">${escapeHtml(r.pri)} ${r.notes?`• ${escapeHtml(r.notes)}`:''}</div>
+            ${r.link?`<div class="meta" style="margin-top:6px">${escapeHtml(r.link)}</div>`:''}
+          </div>
+          <div class="tools">
+            ${linkHtml}
+            <button class="mini" data-reg-del="${r.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    document.getElementById('registryList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-reg-del]');
+      if(!del) return;
+      state.registry = state.registry.filter(x=>x.id!==del.dataset.regDel);
+      saveState();
+      renderRegistry();
+      toast('Deleted');
+    });
+
+    // Shopping
+    document.getElementById('btnAddShop').addEventListener('click', ()=>{
+      const name = val('shopName');
+      const link = val('shopLink');
+      const cat = document.getElementById('shopCat').value;
+      const img = val('shopImg');
+      if(!name || !link) return;
+      state.shopping.unshift({ id: cryptoId(), name, link, cat, img });
+      setVals(['shopName','shopLink','shopImg'], '');
+      saveState();
+      renderShopping();
+      toast('Added');
+    });
+
+    function renderShopping(){
+      const el = document.getElementById('shopList');
+      el.innerHTML='';
+      state.shopping.forEach(s=>{
+        const div = document.createElement('div');
+        div.className='item';
+        const imgHtml = s.img ? `<div class="card" style="box-shadow:none;border-radius:18px;overflow:hidden;margin-top:10px"><div class="media" style="height:180px"><img src="${escapeAttr(s.img)}" alt="shop" onerror="this.style.display='none'" /></div></div>` : '';
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(s.name)}</b>
+            <div class="meta">${escapeHtml(s.cat)} • ${escapeHtml(s.link)}</div>
+            ${imgHtml}
+          </div>
+          <div class="tools">
+            <a class="mini" href="${escapeAttr(s.link)}" target="_blank" rel="noreferrer">Open</a>
+            <button class="mini" data-shop-del="${s.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    document.getElementById('shopList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-shop-del]');
+      if(!del) return;
+      state.shopping = state.shopping.filter(x=>x.id!==del.dataset.shopDel);
+      saveState();
+      renderShopping();
+      toast('Deleted');
+    });
+
+    // Playlist
+    document.querySelectorAll('[data-set-phase]').forEach(t=>t.addEventListener('click', ()=>{
+      document.getElementById('mPhase').value = t.dataset.setPhase;
+      toast(`Moment: ${t.dataset.setPhase}`);
+    }));
+
+    document.getElementById('btnAddMusic').addEventListener('click', ()=>{
+      const title = val('mTitle');
+      const artist = val('mArtist');
+      const link = val('mLink');
+      const phase = document.getElementById('mPhase').value;
+      const note = val('mNote');
+      if(!title || !link) return;
+      state.music.unshift({ id: cryptoId(), title, artist, link, phase, note });
+      setVals(['mTitle','mArtist','mLink','mNote'], '');
+      saveState();
+      renderMusic();
+      toast('Added');
+    });
+
+    function renderMusic(){
+      const el = document.getElementById('musicList');
+      el.innerHTML='';
+      state.music.forEach(m=>{
+        const div = document.createElement('div');
+        div.className='item';
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(m.title)} ${m.artist?`— ${escapeHtml(m.artist)}`:''}</b>
+            <div class="meta">${escapeHtml(m.phase)} ${m.note?`• ${escapeHtml(m.note)}`:''}</div>
+            <div class="meta" style="margin-top:6px">${escapeHtml(m.link)}</div>
+          </div>
+          <div class="tools">
+            <a class="mini" href="${escapeAttr(m.link)}" target="_blank" rel="noreferrer">Play</a>
+            <button class="mini" data-m-del="${m.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    document.getElementById('musicList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-m-del]');
+      if(!del) return;
+      state.music = state.music.filter(x=>x.id!==del.dataset.mDel);
+      saveState();
+      renderMusic();
+      toast('Deleted');
+    });
+
+    // Menu
+    document.querySelectorAll('[data-pick]').forEach(t=>t.addEventListener('click', ()=>{
+      document.getElementById('menuItem').value = t.dataset.pick;
+      toast('Picked');
+    }));
+
+    document.getElementById('btnAddMenu').addEventListener('click', ()=>{
+      const vendor = val('menuVendor');
+      const link = val('menuLink');
+      const img = val('menuImg');
+      const type = document.getElementById('menuType').value;
+      const item = val('menuItem');
+      if(!item) return;
+      state.menu.unshift({ id: cryptoId(), vendor, link, img, type, item });
+      setVals(['menuItem'], '');
+      saveState();
+      renderMenu();
+      toast('Added');
+    });
+
+    function renderMenu(){
+      const el = document.getElementById('menuList');
+      el.innerHTML='';
+      state.menu.forEach(m=>{
+        const div = document.createElement('div');
+        div.className='item';
+        const linkHtml = m.link ? `<a class="mini" href="${escapeAttr(m.link)}" target="_blank" rel="noreferrer">Vendor Link</a>` : '';
+        const imgHtml = m.img ? `<div class="card" style="box-shadow:none;border-radius:18px;overflow:hidden;margin-top:10px"><div class="media" style="height:200px"><img src="${escapeAttr(m.img)}" alt="menu" onerror="this.style.display='none'" /></div></div>` : '';
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(m.item)}</b>
+            <div class="meta">${escapeHtml(m.type)} ${m.vendor?`• ${escapeHtml(m.vendor)}`:''}</div>
+            ${imgHtml}
+          </div>
+          <div class="tools">
+            ${linkHtml}
+            <button class="mini" data-menu-del="${m.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    document.getElementById('menuList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-menu-del]');
+      if(!del) return;
+      state.menu = state.menu.filter(x=>x.id!==del.dataset.menuDel);
+      saveState();
+      renderMenu();
+      toast('Deleted');
+    });
+
+    // Party
+    document.getElementById('btnAddParty').addEventListener('click', ()=>{
+      const name = val('pName');
+      if(!name) return;
+      const role = document.getElementById('pRole').value;
+      const img = val('pImg');
+      const link = val('pLink');
+      const notes = val('pNotes');
+      state.party.unshift({ id: cryptoId(), name, role, img, link, notes });
+      setVals(['pName','pImg','pLink','pNotes'], '');
+      saveState();
+      renderParty();
+      toast('Added');
+    });
+
+    function renderParty(){
+      const el = document.getElementById('partyList');
+      el.innerHTML='';
+      state.party.forEach(p=>{
+        const div = document.createElement('div');
+        div.className='item';
+        const imgHtml = p.img ? `<div class="card" style="box-shadow:none;border-radius:18px;overflow:hidden;margin-top:10px"><div class="media" style="height:220px"><img src="${escapeAttr(p.img)}" alt="party" onerror="this.style.display='none'" /></div></div>` : '';
+        const linkHtml = p.link ? `<a class="mini" href="${escapeAttr(p.link)}" target="_blank" rel="noreferrer">Open Link</a>` : '';
+        div.innerHTML = `
+          <div>
+            <b>${escapeHtml(p.name)}</b>
+            <div class="meta">${escapeHtml(p.role)} ${p.notes?`• ${escapeHtml(p.notes)}`:''}</div>
+            ${imgHtml}
+          </div>
+          <div class="tools">
+            ${linkHtml}
+            <button class="mini" data-party-del="${p.id}">Delete</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    document.getElementById('partyList').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-party-del]');
+      if(!del) return;
+      state.party = state.party.filter(x=>x.id!==del.dataset.partyDel);
+      saveState();
+      renderParty();
+      toast('Deleted');
+    });
+
+    // Budget
+    document.getElementById('bTotal').value = state.meta.totalBudget || 0;
+    document.getElementById('bCur').value = state.meta.currency || '$';
+
+    document.getElementById('bTotal').addEventListener('input', ()=>{
+      state.meta.totalBudget = Number(document.getElementById('bTotal').value||0);
+      saveState();
+      renderBudget();
+    });
+    document.getElementById('bCur').addEventListener('change', ()=>{
+      state.meta.currency = document.getElementById('bCur').value;
+      saveState();
+      renderBudget();
+    });
+
+    document.getElementById('btnAddBudget').addEventListener('click', ()=>{
+      const cat = document.getElementById('bCat').value;
+      const planned = Number(document.getElementById('bPlan').value||0);
+      const actual = Number(document.getElementById('bAct').value||0);
+      const paid = document.getElementById('bPaid').value === 'Yes';
+      const link = val('bLink');
+      if(!planned && !actual) return;
+      state.budget.unshift({ id: cryptoId(), cat, planned, actual, paid, link });
+      setVals(['bPlan','bAct','bLink'], '');
+      saveState();
+      renderBudget();
+      toast('Added');
+    });
+
+    function renderBudget(){
+      const tb = document.getElementById('budgetTable');
+      tb.innerHTML='';
+
+      let sumPlanned = 0, sumActual = 0;
+      state.budget.forEach(b=>{ sumPlanned += Number(b.planned||0); sumActual += Number(b.actual||0); });
+      const remaining = Math.max(0, Number(state.meta.totalBudget||0) - sumActual);
+      document.getElementById('budgetSummary').textContent = `Planned ${money(sumPlanned)} • Actual ${money(sumActual)} • Remaining ${money(remaining)}`;
+
+      state.budget.forEach(b=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${escapeHtml(b.cat)}</td>
+          <td>${money(b.planned||0)}</td>
+          <td>${money(b.actual||0)}</td>
+          <td>${b.paid ? 'Yes' : 'No'}</td>
+          <td><button class="mini" data-b-del="${b.id}" style="padding:7px 10px;border-radius:12px">Delete</button></td>
+        `;
+        tb.appendChild(tr);
+      });
+
+      // Vendor links list
+      const bl = document.getElementById('budgetLinks');
+      bl.innerHTML='';
+      const links = state.budget.filter(b=>b.link);
+      if(!links.length){
+        bl.innerHTML = `<div class="item"><div><b>No links yet</b><div class="meta">Add a vendor link inside a budget line item.</div></div></div>`;
+      }else{
+        links.slice(0,10).forEach(b=>{
+          const div = document.createElement('div');
+          div.className='item';
+          div.innerHTML = `
+            <div>
+              <b>${escapeHtml(b.cat)}</b>
+              <div class="meta">${escapeHtml(b.link)}</div>
+            </div>
+            <div class="tools">
+              <a class="mini" href="${escapeAttr(b.link)}" target="_blank" rel="noreferrer">Open</a>
+            </div>
+          `;
+          bl.appendChild(div);
+        });
+      }
+
+      // KPIs
+      document.getElementById('kpiBudget').textContent = money(remaining);
+    }
+
+    document.getElementById('budgetTable').addEventListener('click', (e)=>{
+      const del = e.target.closest('[data-b-del]');
+      if(!del) return;
+      state.budget = state.budget.filter(x=>x.id!==del.dataset.bDel);
+      saveState();
+      renderBudget();
+      toast('Deleted');
+    });
+
+    function refreshKPIs(){
+      document.getElementById('kpiPhotos').textContent = state.gallery.length;
+      document.getElementById('kpiPosts').textContent = state.posts.length;
+      document.getElementById('kpiContacts').textContent = state.contacts.length;
+      // Budget KPI set by renderBudget()
+    }
+
+    // Helpers
+    function val(id){ return (document.getElementById(id).value||'').trim(); }
+    function setVals(ids, v){ ids.forEach(id=>{ const el=document.getElementById(id); if(el) el.value=v; }); }
+
+    function escapeHtml(str){
+      return String(str||'')
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#039;');
+    }
+    function escapeAttr(str){ return escapeHtml(str).replaceAll('`',''); }
+
+    // Initial render
+    function renderAll(){
+      masterNotes.value = state.notes || '';
+      renderTodos();
+      renderGallery();
+      renderPosts();
+      renderSeating();
+      renderContacts();
+      renderSuggestions();
+      renderRegistry();
+      renderShopping();
+      renderMusic();
+      renderMenu();
+      renderParty();
+      renderBudget();
+      refreshKPIs();
+    }
+
+    renderAll();
+
+    // Keep nav pill active with current tab
+    openTab('overview');
+
+    // Allow buttons like Reset/Share to work even if clipboard blocked
+    document.addEventListener('keydown', (e)=>{
+      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==='k'){
+        e.preventDefault();
+        document.querySelector('.tabBtn.active')?.blur();
+        toast('Use tabs to navigate');
+      }
+    });
+
+  </script>
+</body>
+</html>
